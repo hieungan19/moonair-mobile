@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class logo_name extends StatelessWidget {
-  const logo_name({super.key});
+class LogoName extends StatelessWidget {
+  const LogoName({super.key});
 
   @override
   Widget build(BuildContext context) {
