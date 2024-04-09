@@ -39,14 +39,6 @@ class CustomTextStyle extends TextStyle {
         letterSpacing: 0.5);
   }
 
-  static TextStyle p1bold(Color color) {
-    return GoogleFonts.nunito(
-        fontSize: 18,
-        fontWeight: FontWeight.w800,
-        color: color,
-        letterSpacing: 0.5);
-  }
-
   static TextStyle p2(Color color) {
     return GoogleFonts.nunito(
         fontSize: 16,
@@ -62,6 +54,14 @@ class CustomTextStyle extends TextStyle {
         color: color,
         letterSpacing: 0.5,
         textStyle: const TextStyle(height: 3));
+  }
+
+  static TextStyle p3bold(Color color) {
+    return GoogleFonts.nunito(
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+        color: color,
+        letterSpacing: 0.5);
   }
 
   static TextStyle button(Color color) {

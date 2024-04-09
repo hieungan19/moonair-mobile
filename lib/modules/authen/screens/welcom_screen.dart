@@ -11,14 +11,13 @@ class WelcomScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
-        const Padding(padding: EdgeInsets.all(12.0)),
-
         // Background gradient
         const Center(
             child: GradientContainer([
           AppColors.background,
           AppColors.secondary,
         ])),
+
         Positioned.fill(
           child: Center(
             child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -56,7 +55,7 @@ class WelcomScreen extends StatelessWidget {
                   children: [
                     Text(
                       'Chưa có tài khoản?',
-                      style: CustomTextStyle.p1(AppColors.blacktext)
+                      style: CustomTextStyle.p3(AppColors.blacktext)
                           .copyWith(height: 1.2),
                     ),
                     TextButton(
@@ -66,7 +65,7 @@ class WelcomScreen extends StatelessWidget {
                       child: Text(
                         'Đăng ký',
                         style:
-                            CustomTextStyle.p1bold(AppColors.primary).copyWith(
+                            CustomTextStyle.p3bold(AppColors.primary).copyWith(
                           decoration: TextDecoration.underline,
                           height: 1.2,
                         ),
@@ -75,6 +74,8 @@ class WelcomScreen extends StatelessWidget {
                   ],
                 ),
               ),
+
+              const SizedBox(height: 50),
 
               //Ảnh máy bay
               Image.asset(
