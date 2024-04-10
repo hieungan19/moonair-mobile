@@ -54,127 +54,138 @@ class LoginScreen extends StatelessWidget {
           ),
           Positioned.fill(
             child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: Image.asset(
-                      'lib/assets/logo/logo_name.png',
+              child: ListView(children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 30),
+                      child: Image.asset(
+                        'lib/assets/logo/logo_name.png',
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(height: 50),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 24.0, right: 100.0),
-                    child: Text(
-                      'Hãy đăng nhập vào tài khoản của bạn!',
-                      style: CustomTextStyle.h3(AppColors.primary),
-                      textAlign: TextAlign.left,
+                    const SizedBox(height: 50),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 24.0, right: 100.0),
+                      child: Text(
+                        'Hãy đăng nhập vào tài khoản của bạn!',
+                        style: CustomTextStyle.h3(AppColors.primary),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 24.0, right: 150),
-                    child: Text(
-                      'Điền những thông tin dưới đây.',
-                      style: CustomTextStyle.p3(AppColors.info),
-                      textAlign: TextAlign.left,
+                    const SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 24.0, right: 150),
+                      child: Text(
+                        'Điền những thông tin dưới đây.',
+                        style: CustomTextStyle.p3(AppColors.info),
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(height: 40),
+                    const SizedBox(height: 40),
 
-                  SizedBox(
-                    height: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-                      child: Column(
+                    SizedBox(
+                      height: 50,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            logInWithGoogleButton(() {}, context),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 30),
+                    Image.asset(AppImages.devideWidget),
+                    const SizedBox(height: 30),
+
+                    //Text Field nhập email
+                    SizedBox(
+                        height: 50,
+                        child: MyTextField(
+                          controller: usernameController,
+                          hintText: 'Nhập email',
+                          obscureText: false,
+                        )),
+                    const SizedBox(height: 15),
+
+                    //Text Field nhập password
+                    const SizedBox(height: 20),
+
+                    SizedBox(
+                        height: 50,
+                        child: MyTextField(
+                            controller: passwordController,
+                            hintText: 'Nhập mật khẩu',
+                            obscureText: true)),
+
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                // Xử lý khi nút "Quên mật khẩu" được nhấn
+                              },
+                              child: Text(
+                                'Quên mật khẩu?',
+                                style: CustomTextStyle.p2(AppColors.primary)
+                                    .copyWith(
+                                  decoration: TextDecoration.underline,
+                                  height: 1.2,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )),
+
+                    const SizedBox(height: 20),
+
+                    AppButton(
+                      buttonText: "Tiếp tục",
+                      onPressedFunction: () {},
+                    ),
+
+                    //Button chưa có tài khoản, đăng ký
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          logInWithGoogleButton(() {}, context),
+                          Text(
+                            'Chưa có tài khoản?',
+                            style: CustomTextStyle.p3(AppColors.blacktext)
+                                .copyWith(height: 1.2),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              // Xử lý khi nút "Đăng ký" được nhấn
+                            },
+                            child: Text(
+                              'Đăng ký',
+                              style: CustomTextStyle.p3bold(AppColors.primary)
+                                  .copyWith(
+                                decoration: TextDecoration.underline,
+                                height: 1.2,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                  ),
-
-                  const SizedBox(height: 30),
-                  Image.asset(AppImages.devideWidget),
-                  const SizedBox(height: 30),
-
-                  //Text Field nhập email
-                  SizedBox(
-                      height: 50,
-                      child: MyTextField(
-                        controller: usernameController,
-                        hintText: 'Nhập email',
-                        obscureText: false,
-                      )),
-                  const SizedBox(height: 15),
-
-                  //Text Field nhập password
-                  const SizedBox(height: 20),
-
-                  SizedBox(
-                      height: 50,
-                      child: MyTextField(
-                          controller: passwordController,
-                          hintText: 'Nhập mật khẩu',
-                          obscureText: true)),
-
-                  TextButton(
-                    onPressed: () {
-                      // Xử lý khi nút "Quên mật khẩu" được nhấn
-                    },
-                    child: Text(
-                      'Quên mật khẩu?',
-                      style: CustomTextStyle.p2(AppColors.primary).copyWith(
-                        decoration: TextDecoration.underline,
-                        height: 1.2,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  AppButton(
-                    buttonText: "Tiếp tục",
-                    onPressedFunction: () {},
-                  ),
-
-                  //Button chưa có tài khoản, đăng ký
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Chưa có tài khoản?',
-                          style: CustomTextStyle.p3(AppColors.blacktext)
-                              .copyWith(height: 1.2),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            // Xử lý khi nút "Đăng ký" được nhấn
-                          },
-                          child: Text(
-                            'Đăng ký',
-                            style: CustomTextStyle.p3bold(AppColors.primary)
-                                .copyWith(
-                              decoration: TextDecoration.underline,
-                              height: 1.2,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ]),
             ),
-          ),
+          )
         ],
       ),
     );
