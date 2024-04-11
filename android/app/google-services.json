@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "412684218203",
+    "project_id": "moonair-d6aa6",
+    "storage_bucket": "moonair-d6aa6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412684218203:android:54751155c76dc807ae747e",
+        "android_client_info": {
+          "package_name": "com.example.moonair"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8zIEbwJxt-dHEF5dpdi9mITS9_Wv84BA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
