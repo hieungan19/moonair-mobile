@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,8 +11,8 @@ class LoadingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
+        decoration: const BoxDecoration(
+          gradient:  LinearGradient(
             colors: [AppColors.background, AppColors.secondary],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -22,13 +24,13 @@ class LoadingScreen extends StatelessWidget {
             children: <Widget>[
               Stack(children: [
               Center(child: Padding(
-                padding: EdgeInsets.only(top: 27), 
-                child: Image.asset('lib/assets/logo/sc_waiting.png',scale: 1.9)
+                padding: EdgeInsets.only(top: 30), 
+                child: Image.asset('lib/assets/logo/sc_waiting.png',scale: 4)
                 )),
-                Center(
+                const Center(
                   child: SizedBox(
-                    width: 350,
-                    height: 350,
+                    width: 200,
+                    height: 200,
                     child: CircularProgressIndicator(
                       strokeWidth: 2.0,
                       color: AppColors.primary,
@@ -36,10 +38,10 @@ class LoadingScreen extends StatelessWidget {
                   ),
                 ),
               ]),
+              SizedBox(height: 60),
               Text(
                 'Dữ liệu đang được tải...',
-                style: CustomTextStyle.h2(AppColors.primary)
-                          .copyWith(height: 1.8),
+                style: CustomTextStyle.h3(AppColors.primary),
               ),
             ]),
           ),

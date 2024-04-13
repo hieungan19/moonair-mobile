@@ -7,6 +7,7 @@ import 'package:moonair/core/app_colors.dart';
 import 'package:moonair/core/app_themes.dart';
 import 'package:moonair/global_widgets/GradientContainer.dart';
 import 'package:moonair/global_widgets/button.dart';
+import 'package:moonair/global_widgets/text_field.dart';
 
 
 class PasswordResetScreen1 extends StatelessWidget {
@@ -29,47 +30,46 @@ class PasswordResetScreen1 extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 50, 0, 50),
-                child: Image.asset('lib/assets/logo/logo_big_2.png')),
+                child: Image.asset('lib/assets/logo/logo_big_2.png')
+                ),
               Text(
                 'ĐẶT LẠI MẬT KHẨU',
                 style: CustomTextStyle.h2(AppColors.primary),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
-              TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  hintText: 'Nhập email',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8)),
-                ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 20, 280, 5),
+                child: Text('Email',
+                style: CustomTextStyle.p1(Colors.black)),
               ),
-              SizedBox(height: 20),
+              MyTextField(controller: emailController, hintText: 'Nhập email', obscureText: false),
+              Padding(
+                    padding: EdgeInsets.fromLTRB(0, 10, 220, 5),
+                    child: Text('Mã xác nhận',
+                    style: CustomTextStyle.p1(Colors.black)),
+                  ),
               Stack(
                 children: <Widget>[ 
                   Expanded(
-                    child: TextField(
+                    child: MyTextField(
                       controller: verifiController,
-                      decoration: InputDecoration(
-                        labelText: 'Mã xác nhận',
-                        hintText: 'Nhập mã',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      ),
-                      
+                      hintText: 'Nhập mã',
+                      obscureText: false,
                     ),
                   ),
                   Align(
-                    heightFactor: 1.5,
+                    heightFactor: 1.1,
                     alignment: Alignment.centerRight,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text('Gửi mã', style: TextStyle(color: AppColors.primary)),
-                      style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent, // Set button color to transparent
-                      elevation: 0, // Remove button shadow   
-                    ))
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 20),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: Text('Gửi mã', style: TextStyle(color: AppColors.primary)),
+                        style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent, // Set button color to transparent
+                        elevation: 0, // Remove button shadow   
+                      )),
+                    )
                   ),
                 ],
               ),
@@ -87,6 +87,8 @@ class PasswordResetScreen1 extends StatelessWidget {
 }
 
 class PasswordResetScreen2 extends StatelessWidget {
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,29 +112,19 @@ class PasswordResetScreen2 extends StatelessWidget {
                 style: CustomTextStyle.h2(AppColors.primary),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Mật khẩu mới',
-                  suffixIcon: IconButton(onPressed:  () {}, icon: Icon(Icons.visibility)),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 20, 220, 5),
+                child: Text('Mật khẩu mới',
+                style: CustomTextStyle.p1(Colors.black)),
               ),
-              SizedBox(height: 20),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Nhập lại mật khẩu',
-                  suffixIcon: IconButton(onPressed: () {}, icon: Icon(Icons.visibility)),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
+              MyTextField(controller: passwordController, hintText: 'Mật khẩu', obscureText: true),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 10, 180, 5),
+                child: Text('Nhập lại mật khẩu',
+                style: CustomTextStyle.p1(Colors.black)),
               ),
-              SizedBox(height: 108),
+              MyTextField(controller: passwordController, hintText: 'Mật khẩu', obscureText: true),
+              SizedBox(height: 100),
               AppButton(
                 onPressedFunction: () {},
                 buttonText: 'Đặt lại',
