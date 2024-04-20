@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:moonair/modules/chatbot/screens/chat_bot_screen.dart';
 import 'package:moonair/modules/payment/screens/payment_screen.dart';
 
 void main() async {
@@ -41,6 +42,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return const HomePage();
+    return const ChatbotScreen();
   }
 }
