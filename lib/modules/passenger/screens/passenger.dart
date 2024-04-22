@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:moonair/core/app_themes.dart';
@@ -5,6 +6,7 @@ import 'package:moonair/modules/passenger/widgets/PassengerForm.dart';
 import 'package:moonair/assets/icons/app_icons_icons.dart';
 import 'package:moonair/core/app_colors.dart';
 import 'package:moonair/global_widgets/text_field.dart';
+import 'package:moonair/global_widgets/button.dart';
 
 void main() {
   runApp(Passenger());
@@ -48,6 +50,14 @@ class Passenger extends StatelessWidget {
               PassengerFormWidget(),
               SizedBox(height: 20),
               PassengerFormWidget(),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.grey2, width: 0.2),
+                ),
+                child: AppButton(
+                    buttonText: 'Tiếp theo', onPressedFunction: () {}),
+              )
             ] // Sử dụng widget PassengerFormWidget
                     ))));
   }
