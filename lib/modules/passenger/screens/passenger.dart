@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:moonair/core/app_themes.dart';
 import 'package:moonair/modules/passenger/widgets/PassengerForm.dart';
 import 'package:moonair/assets/icons/app_icons_icons.dart';
@@ -24,7 +25,8 @@ class Passenger extends StatelessWidget {
               actions: <Widget>[
                 IconButton(
                   iconSize: 35,
-                  padding: const EdgeInsets.all(20.0),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
                   icon: Icon(AppIcons.refresh_1),
                   onPressed: () {},
                 )
@@ -33,6 +35,8 @@ class Passenger extends StatelessWidget {
                 onPressed: () {},
                 icon: IconButton(
                   iconSize: 40,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
                   icon: Icon(AppIcons.left_square_2),
                   onPressed: () {},
                 ),
