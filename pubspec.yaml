@@ -39,7 +39,6 @@ dependencies:
   line_icons: ^2.0.3
   google_fonts: ^4.0.1
   get: ^4.6.6
-  google_sign_in: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -93,3 +92,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: AppIcons
+      fonts:
+        - asset: lib/assets/fonts/AppIcons.ttf 
+
