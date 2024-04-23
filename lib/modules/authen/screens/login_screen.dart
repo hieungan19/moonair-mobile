@@ -5,6 +5,7 @@ import '../../../global_widgets/button.dart';
 import '../../../core/app_themes.dart';
 import '../../../values/app_assets/app_images.dart';
 import '../../../global_widgets/text_field.dart';
+import 'package:line_icons/line_icons.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -112,6 +113,7 @@ class LoginScreen extends StatelessWidget {
                         controller: usernameController,
                         hintText: 'Nhập email',
                         obscureText: false,
+                        sufficIcon: const Icon(LineIcons.envelope),
                       )),
                   const SizedBox(height: 15),
 

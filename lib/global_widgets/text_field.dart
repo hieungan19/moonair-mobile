@@ -6,12 +6,16 @@ class MyTextField extends StatelessWidget {
   final controller;
   final String hintText;
   final bool obscureText;
+  final Icon? prefixIcon;
+  final Icon? sufficIcon;
 
   const MyTextField({
     super.key,
     required this.controller,
     required this.hintText,
     required this.obscureText,
+    this.prefixIcon, //icon ở đầu
+    this.sufficIcon, //icon ở đuôi
   });
 
   @override
@@ -36,6 +40,8 @@ class MyTextField extends StatelessWidget {
             filled: true,
             hintText: hintText,
             hintStyle: const TextStyle(color: AppColors.info),
+            prefixIcon: prefixIcon,
+            suffixIcon: sufficIcon,
           ),
         ));
   }
