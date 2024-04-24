@@ -22,7 +22,7 @@ class _SeatBookingScreenState extends State<SeatBooking> {
       body: Column(
         children: <Widget>[
           Container(
-            padding: const EdgeInsets.only(top: 70, left: 20, right: 20),
+            padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
             width: MediaQuery.of(context).size.width,
             height: 240.0,
             child: Column(
@@ -51,9 +51,9 @@ class _SeatBookingScreenState extends State<SeatBooking> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
-                Image.asset('lib/assets/icons/slide_seat.png'),
                 const SizedBox(height: 20),
+                Image.asset('lib/assets/icons/slide_seat.png'),
+                const SizedBox(height: 30),
                 const SeatInfoWidget(),
               ],
             ),
@@ -72,7 +72,6 @@ class _SeatBookingScreenState extends State<SeatBooking> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 10),
                   const Padding(
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: SeatClass(),
