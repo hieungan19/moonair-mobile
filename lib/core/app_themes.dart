@@ -9,8 +9,7 @@ class CustomTextStyle extends TextStyle {
         fontSize: 40,
         fontWeight: FontWeight.w900,
         color: color,
-        letterSpacing: 0.5,
-        textStyle: const TextStyle(height: 1.5));
+        letterSpacing: 0.5);
   }
 
   static TextStyle h2(Color color) {
@@ -18,8 +17,7 @@ class CustomTextStyle extends TextStyle {
         fontSize: 32,
         fontWeight: FontWeight.bold,
         color: color,
-        letterSpacing: 0.5,
-        textStyle: const TextStyle(height: 1));
+        letterSpacing: 0.5);
   }
 
   static TextStyle h3(Color color) {
@@ -27,8 +25,7 @@ class CustomTextStyle extends TextStyle {
         fontSize: 24,
         fontWeight: FontWeight.bold,
         color: color,
-        letterSpacing: 0.5,
-        textStyle: const TextStyle(height: 1));
+        letterSpacing: 0.5);
   }
 
   static TextStyle p1(Color color) {
@@ -52,8 +49,7 @@ class CustomTextStyle extends TextStyle {
         fontSize: 14,
         fontWeight: FontWeight.w400,
         color: color,
-        letterSpacing: 0.5,
-        textStyle: const TextStyle(height: 3));
+        letterSpacing: 0.5);
   }
 
   static TextStyle p3bold(Color color) {

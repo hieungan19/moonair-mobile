@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moonair/values/app_assets/app_icons.dart';
 import '../core/app_colors.dart';
 import '../core/app_themes.dart';
 
@@ -29,7 +28,7 @@ class AppButton extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                     backgroundColor: (ignore ? AppColors.grey2 : color),
                     side: color == AppColors.background
-                        ? const BorderSide(width: 0.3, color: AppColors.info)
+                        ? const BorderSide(width: 0.3, color: AppColors.primary)
                         : BorderSide.none,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10))),
