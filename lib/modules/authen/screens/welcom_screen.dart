@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:moonair/core/app_colors.dart';
 import 'package:moonair/global_widgets/GradientContainer.dart';
+import 'package:moonair/modules/authen/authen_controller.dart';
 import '../../../global_widgets/button.dart';
 import '../../../core/app_themes.dart';
 
 class WelcomScreen extends StatelessWidget {
-  const WelcomScreen({super.key});
+  WelcomScreen({super.key});
+  final AuthenController _controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +46,7 @@ class WelcomScreen extends StatelessWidget {
               //Button
               AppButton(
                   buttonText: "Let's fly!",
-                  onPressedFunction: () {
-                    //Xử lý khi nút Let's fly! được nhấn
-                  }),
+                  onPressedFunction: _controller.navigateToLoginScreen),
 
               //Button chưa có tài khoản, đăng ký
               Padding(
@@ -59,9 +60,7 @@ class WelcomScreen extends StatelessWidget {
                           .copyWith(height: 1.2),
                     ),
                     TextButton(
-                      onPressed: () {
-                        // Xử lý khi nút "Đăng ký" được nhấn
-                      },
+                      onPressed: _controller.navigateToSignUpScreen,
                       child: Text(
                         'Đăng ký',
                         style:

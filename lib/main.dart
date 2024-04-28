@@ -1,39 +1,39 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:moonair/modules/authen/screens/login_screen.dart';
-import 'package:moonair/modules/authen/screens/signup_sceen.dart';
-import 'package:moonair/modules/authen/screens/welcom_screen.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:moonair/core/app_themes.dart';
+import 'package:moonair/routes/app_page.dart';
+import 'package:moonair/routes/app_route.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const App());
+  await dotenv.load(fileName: ".env");
+  print(dotenv.env['API_URL']);
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatefulWidget {
+  const App({super.key});
 
-  // This widget is the root of your application.
+  @override
+  // ignore: library_private_types_in_public_api
+  AppState createState() => AppState();
+}
+
+class AppState extends State<App> {
+  late String initialRoute = AppRoutes.welcomePage;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(),
+    return GetMaterialApp(
+      initialRoute: initialRoute,
+      getPages: AppPages.pages,
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      builder: EasyLoading.init(),
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return SignUpScreen();
   }
 }
