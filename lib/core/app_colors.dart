@@ -13,7 +13,7 @@ class AppColors {
   //Text
   static const Color error = Color(0xFFEF5E5E);
   static const Color info = Color(0xFF959595);
-  static const Color warning = Color(0xFFE0CA71);
+  static const Color warning = Color(0xFFE1B661);
   static const Color blacktext = Color(0XFF212121);
   static const Color whitetext = Color(0xFFFCFCFC);
   static const Color onSurface = Color(0xFFFAFAFA);
