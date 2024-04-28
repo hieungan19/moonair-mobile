@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../global_widgets/text_field.dart';
 import 'package:moonair/core/app_colors.dart';
 import '../../../core/app_themes.dart';
+import '../../../modules/passenger/widgets/DropdownButton.dart';
 
 class PassengerFormWidget extends StatelessWidget {
   PassengerFormWidget({super.key});
@@ -89,12 +90,8 @@ class PassengerFormWidget extends StatelessWidget {
           )),
       SizedBox(
           height: 50,
-          child: MyTextField(
+          child: DropDownBtn(
             controller: nationController,
-            hintText: 'Quốc tịch',
-            obscureText: false,
-            sufficIcon:
-                const Icon(Icons.arrow_drop_down, color: AppColors.primary),
           )),
       const SizedBox(height: 15),
     ]);
