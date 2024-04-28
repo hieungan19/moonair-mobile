@@ -28,6 +28,14 @@ class CustomTextStyle extends TextStyle {
         letterSpacing: 0.5);
   }
 
+  static TextStyle h4(Color color) {
+    return GoogleFonts.nunito(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: color,
+        letterSpacing: 0.5);
+  }
+
   static TextStyle p1(Color color) {
     return GoogleFonts.nunito(
         fontSize: 18,
@@ -36,10 +44,26 @@ class CustomTextStyle extends TextStyle {
         letterSpacing: 0.5);
   }
 
+  static TextStyle p1bold(Color color) {
+    return GoogleFonts.nunito(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: color,
+        letterSpacing: 0.5);
+  }
+
   static TextStyle p2(Color color) {
     return GoogleFonts.nunito(
         fontSize: 16,
         fontWeight: FontWeight.w600,
+        color: color,
+        letterSpacing: 0.5);
+  }
+
+  static TextStyle p2bold(Color color) {
+    return GoogleFonts.nunito(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
         color: color,
         letterSpacing: 0.5);
   }

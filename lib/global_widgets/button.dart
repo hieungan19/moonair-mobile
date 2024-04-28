@@ -18,28 +18,27 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20),
+    return SizedBox(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: IgnorePointer(
-            ignoring: ignore,
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: (ignore ? AppColors.grey2 : color),
-                    side: color == AppColors.background
-                        ? const BorderSide(width: 0.3, color: AppColors.primary)
-                        : BorderSide.none,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                onPressed: onPressedFunction,
-                child: SizedBox(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width,
-                    child: Center(
-                        child: Text(buttonText,
-                            style: CustomTextStyle.button(textColor))))),
-          ),
-        ));
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: IgnorePointer(
+        ignoring: ignore,
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: (ignore ? AppColors.grey2 : color),
+                side: color == AppColors.background
+                    ? const BorderSide(width: 0.3, color: AppColors.primary)
+                    : BorderSide.none,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))),
+            onPressed: onPressedFunction,
+            child: SizedBox(
+                height: 50,
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                    child: Text(buttonText,
+                        style: CustomTextStyle.button(textColor))))),
+      ),
+    ));
   }
 }

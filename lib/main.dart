@@ -3,6 +3,7 @@ import 'package:moonair/modules/authen/screens/login_screen.dart';
 import 'package:moonair/modules/authen/screens/signup_sceen.dart';
 import 'package:moonair/modules/authen/screens/welcom_screen.dart';
 import 'package:moonair/modules/seat/screen/seat_booking.dart';
+import 'package:moonair/modules/home/screen/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,6 +36,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return const SeatBooking();
+    return Home();
   }
 }
