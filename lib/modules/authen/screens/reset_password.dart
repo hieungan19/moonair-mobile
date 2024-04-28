@@ -87,52 +87,54 @@ class PasswordResetScreen1 extends StatelessWidget {
 }
 
 class PasswordResetScreen2 extends StatelessWidget {
-  TextEditingController passwordController = TextEditingController();
-
+  TextEditingController passwordController1 = TextEditingController();
+  TextEditingController passwordController2 = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Center(
-            child: GradientContainer([
-              AppColors.background, 
-              AppColors.secondary,
-            ])),
-          Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 50, 0, 50),
-                child: Image.asset('lib/assets/logo/logo_big_2.png')),
-              Text(
-                'ĐẶT LẠI MẬT KHẨU',
-                style: CustomTextStyle.h2(AppColors.primary),
-                textAlign: TextAlign.center,
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 20, 220, 5),
-                child: Text('Mật khẩu mới',
-                style: CustomTextStyle.p1(Colors.black)),
-              ),
-              MyTextField(controller: passwordController, hintText: 'Mật khẩu', obscureText: true),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 10, 180, 5),
-                child: Text('Nhập lại mật khẩu',
-                style: CustomTextStyle.p1(Colors.black)),
-              ),
-              MyTextField(controller: passwordController, hintText: 'Mật khẩu', obscureText: true),
-              SizedBox(height: 100),
-              AppButton(
-                onPressedFunction: () {},
-                buttonText: 'Đặt lại',
-              ),
-            ],
+    return Scaffold( 
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Center(
+              child: GradientContainer([
+                AppColors.background, 
+                AppColors.secondary,
+              ])),
+            Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 50, 0, 50),
+                  child: Image.asset('lib/assets/logo/logo_big_2.png')),
+                Text(
+                  'ĐẶT LẠI MẬT KHẨU',
+                  style: CustomTextStyle.h2(AppColors.primary),
+                  textAlign: TextAlign.center,
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 20, 220, 5),
+                  child: Text('Mật khẩu mới',
+                  style: CustomTextStyle.p1(Colors.black)),
+                ),
+                MyTextField(controller: passwordController1, hintText: 'Mật khẩu', obscureText: true),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10, 180, 5),
+                  child: Text('Nhập lại mật khẩu',
+                  style: CustomTextStyle.p1(Colors.black)),
+                ),
+                MyTextField(controller: passwordController2, hintText: 'Mật khẩu', obscureText: true),
+                SizedBox(height: 100),
+                AppButton(
+                  onPressedFunction: () {},
+                  buttonText: 'Đặt lại',
+                ),
+              ],
+            ),
           ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 }
