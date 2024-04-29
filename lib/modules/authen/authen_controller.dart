@@ -1,16 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 import 'package:moonair/core/ultils.dart';
 import 'package:moonair/core/values/api_url.dart';
 import 'package:moonair/data/models/user.dart';
 import 'package:moonair/data/services/data_center.dart';
 import 'package:moonair/routes/app_route.dart';
-import 'package:http/http.dart' as http;
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthenController extends GetxController {
   TextEditingController email = TextEditingController();
@@ -215,8 +213,11 @@ class AuthenController extends GetxController {
         DataCenter.user = UserModel.fromJson(data["user"]);
         showSnackbar(
             title: "Thành công",
-            content: "Đổi mật khẩu mới thành công.",
+            content: "Đổi mật khẩu mới thành công. Vui lòng đăng nhập lại.",
             color: Colors.green);
+        Future.delayed(const Duration(seconds: 2), () {
+          Get.toNamed(AppRoutes.loginPage);
+        });
       }
     } catch (err) {
       showSnackbar(
