@@ -9,6 +9,8 @@ import 'package:moonair/data/models/user.dart';
 import 'package:moonair/data/services/data_center.dart';
 import 'package:moonair/routes/app_route.dart';
 import 'package:http/http.dart' as http;
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthenController extends GetxController {
   TextEditingController email = TextEditingController();
@@ -18,6 +20,43 @@ class AuthenController extends GetxController {
   TextEditingController name = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
   var selectedGender = 'male'.obs;
+
+  final _ggSignIn = GoogleSignIn();
+  static late String? idToken;
+  signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? ggSignInAccount = await _ggSignIn.signIn();
+      print(ggSignInAccount);
+      if (ggSignInAccount != null) {
+        // Signup voi BE
+        var body = jsonEncode({
+          'email': ggSignInAccount.email,
+          'name': ggSignInAccount.displayName,
+          'photo': ggSignInAccount.photoUrl,
+          'googleId': ggSignInAccount.id,
+        });
+        var url = Uri.parse(UrlValue.ggLoginUrl);
+
+        var response = await http.post(url,
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: body);
+        if (response.statusCode == 200) {
+          var data = jsonDecode(response.body);
+          DataCenter.token = data["token"];
+          DataCenter.user = UserModel.fromJson(data["user"]);
+          showSnackbar(
+              title: "Thành công",
+              content: "Đăng nhập thành công",
+              color: Colors.green);
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   void selectGender(String gender) {
     selectedGender.value = gender;
   }
@@ -57,6 +96,7 @@ class AuthenController extends GetxController {
             color: Colors.green);
       }
     } catch (err) {
+      print(err);
       showSnackbar(
           title: "Lỗi",
           content: "Đăng nhập không thành công",

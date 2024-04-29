@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:moonair/core/app_colors.dart';
-import 'package:moonair/global_widgets/GradientContainer.dart';
 import 'package:moonair/modules/authen/authen_controller.dart';
 import '../../../global_widgets/button.dart';
 import '../../../core/app_themes.dart';
@@ -95,7 +94,8 @@ class LoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        logInWithGoogleButton(() {}, context),
+                        logInWithGoogleButton(
+                            _controller.signInWithGoogle, context),
                       ],
                     ),
                   ),

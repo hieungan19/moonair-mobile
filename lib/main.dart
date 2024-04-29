@@ -8,13 +8,25 @@ import 'package:moonair/core/app_themes.dart';
 import 'package:moonair/routes/app_page.dart';
 import 'package:moonair/routes/app_route.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+    apiKey: 'AIzaSyC8zIEbwJxt-dHEF5dpdi9mITS9_Wv84BA',
+    appId: '1:412684218203:android:54751155c76dc807ae747e',
+    messagingSenderId: '412684218203',
+    projectId: 'moonair-d6aa6',
+  ));
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   runApp(const App());
   await dotenv.load(fileName: ".env");
-  print(dotenv.env['API_URL']);
 }
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 class App extends StatefulWidget {
   const App({super.key});

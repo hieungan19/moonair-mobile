@@ -9,4 +9,5 @@ class UrlValue {
   static final forgotPasswordUrl = "$app/users/forgotPassword";
   static final resetPasswordUrl = "$app/users/resetPassword";
   static final checkResetPasswordUrl = "$app/users/checkResetPassword";
+  static final ggLoginUrl = "$app/users/gglogin";
 }
