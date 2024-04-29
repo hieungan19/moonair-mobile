@@ -48,6 +48,10 @@ class AuthenController extends GetxController {
               title: "Thành công",
               content: "Đăng nhập thành công",
               color: Colors.green);
+
+          Future.delayed(const Duration(seconds: 2), () {
+            Get.toNamed(AppRoutes.homePage);
+          });
         }
       }
     } catch (e) {
@@ -93,6 +97,10 @@ class AuthenController extends GetxController {
             content: "Đăng nhập thành công",
             color: Colors.green);
       }
+
+      Future.delayed(const Duration(seconds: 2), () {
+        Get.toNamed(AppRoutes.homePage);
+      });
     } catch (err) {
       print(err);
       showSnackbar(

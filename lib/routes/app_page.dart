@@ -5,6 +5,9 @@ import 'package:moonair/modules/authen/screens/login_screen.dart';
 import 'package:moonair/modules/authen/screens/reset_password_screen.dart';
 import 'package:moonair/modules/authen/screens/signup_sceen.dart';
 import 'package:moonair/modules/authen/screens/welcom_screen.dart';
+import 'package:moonair/modules/home/home_binding.dart';
+import 'package:moonair/modules/home/screen/home_screen.dart';
+import 'package:moonair/modules/noti/screens/home_screen.dart';
 import 'package:moonair/routes/app_route.dart';
 
 class AppPages {
@@ -44,6 +47,15 @@ class AppPages {
       page: () => PasswordResetScreen(),
       transition: Transition.cupertino,
       binding: AuthenBinding(),
+    ),
+
+    //2. Home
+    //home
+    GetPage(
+      name: AppRoutes.homePage,
+      page: () => Home(),
+      transition: Transition.cupertino,
+      binding: HomeBinding(),
     ),
   ];
 }

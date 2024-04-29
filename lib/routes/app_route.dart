@@ -8,4 +8,7 @@ class AppRoutes {
   static const signUpPage = '/signup';
   static const forgotPasswordPage = '/forgotPassword';
   static const resetPasswordPage = '/resetPassword';
+
+  //home
+  static const homePage = '/home';
 }
