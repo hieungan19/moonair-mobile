@@ -5,6 +5,7 @@ import 'package:moonair/modules/authen/screens/login_screen.dart';
 import 'package:moonair/modules/authen/screens/reset_password_screen.dart';
 import 'package:moonair/modules/authen/screens/signup_sceen.dart';
 import 'package:moonair/modules/authen/screens/welcom_screen.dart';
+import 'package:moonair/modules/chatbot/screens/chat_bot_screen.dart';
 import 'package:moonair/modules/home/home_binding.dart';
 import 'package:moonair/modules/home/screen/home_screen.dart';
 import 'package:moonair/modules/noti/screens/home_screen.dart';
@@ -57,5 +58,12 @@ class AppPages {
       transition: Transition.cupertino,
       binding: HomeBinding(),
     ),
+
+    //chatbot
+    GetPage(
+      name: AppRoutes.chatbotPage,
+      page: () => ChatbotScreen(),
+      transition: Transition.cupertino,
+    )
   ];
 }

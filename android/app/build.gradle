@@ -46,8 +46,8 @@ android {
         applicationId "com.example.moonair"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
         multiDexEnabled true
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -70,4 +70,6 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.8.0')
     implementation ('com.android.support:multidex:1.0.3')
     implementation ('com.google.gms:google-services:4.4.1')
+    implementation ('com.stripe:stripe-android:17.1.1')
 }
+

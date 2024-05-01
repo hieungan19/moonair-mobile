@@ -11,4 +11,8 @@ class AppRoutes {
 
   //home
   static const homePage = '/home';
+
+  //chat bot
+  static const chatbotPage = '/chatbot';
+  
 }
