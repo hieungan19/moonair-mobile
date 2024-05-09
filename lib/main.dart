@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moonair/global_widgets/ticket.dart';
+import 'package:moonair/modules/History/screens/history_ticket_screen.dart';
 import 'package:moonair/modules/Ticket/screens/search_ticket_screen.dart';
 import 'package:moonair/modules/authen/screens/login_screen.dart';
 import 'package:moonair/modules/authen/screens/signup_sceen.dart';
@@ -36,6 +37,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SearchTicket(khuhoi: true));
+    return History(khuhoi: true);
   }
 }
