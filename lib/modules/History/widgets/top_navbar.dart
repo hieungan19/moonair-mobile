@@ -23,10 +23,7 @@ class _TopNavBarState extends State<TopNavBar> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-        // padding: const EdgeInsets.only(top: 0),
-        child: TabBar(
+    return TabBar(
           labelColor: AppColors.primary,
           dividerColor: Colors.transparent,
           unselectedLabelColor: AppColors.grey2,
@@ -56,7 +53,6 @@ class _TopNavBarState extends State<TopNavBar> with TickerProviderStateMixin {
             ),
           ],
           controller: _controller,
-        )
         );
   }
 }

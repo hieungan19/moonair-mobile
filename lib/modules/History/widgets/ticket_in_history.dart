@@ -142,8 +142,9 @@ class MyTicketInHistory extends State<TicketInHistory> {
                 child: Text('#MaMB',
                     style: CustomTextStyle.p2bold(AppColors.blacktext))),
             Container(
-              margin: EdgeInsets.fromLTRB(270, 12, 12, 10),
+              margin: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/3*2-35, 12, 10, 10),
               padding: EdgeInsets.all(2),
+              alignment: Alignment.topRight,
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
