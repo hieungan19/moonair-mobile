@@ -82,7 +82,7 @@ class MyTicket extends State<Ticket> {
                     painter: DashedLinePainter(),
                     child: Container(
                       height: 10,
-                      width: 376,
+                      width: 378,
                     )),
               ),
             ClipPath(
@@ -94,7 +94,7 @@ class MyTicket extends State<Ticket> {
               ),
               child: Container(
                 color: AppColors.tint2,
-                padding: const EdgeInsets.fromLTRB(10, 52, 10, 3),
+                padding: const EdgeInsets.fromLTRB(10, 52, 10, 0),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.min,
@@ -232,13 +232,12 @@ class MyTicket extends State<Ticket> {
                               ],
                             )),
                       if (widget.detail == 1)
-                        Doichuyen('12:30', '14:30',
-                            'Sân bay quốc tế Tân Sơn Nhất', 'Taipei'),
+                        Doichuyen('12:30', '14:30','20/04/2024','20/04/2024', 'TP. Hồ Chí Minh', 'Taipei', 'Tân Sơn Nhất', 'Taipei',),
                       if (widget.detail == 1)
                         Text('ĐỔI CHUYẾN',
                             style: CustomTextStyle.p1bold(AppColors.primary)),
                       if (widget.detail == 1)
-                        Doichuyen('17:30', '20:20', 'Taipei', 'New York')
+                        Doichuyen('17:30', '20:20','20/04/2024','20/04/2024', 'Taipei', 'New York', 'Taipei', 'New York'),
                     ]),
               ),
             ),
@@ -274,16 +273,16 @@ class MyTicket extends State<Ticket> {
     });
   }
 
-  Widget Doichuyen(String t1, String t2, String s1, String s2) {
+  Widget Doichuyen(String g1, String g2, String t1, String t2, String d1, String d2, String sb1, String sb2) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(children: [
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(t1, style: CustomTextStyle.p3bold(AppColors.blacktext)),
-          Text('10/04/2024', style: CustomTextStyle.p4(AppColors.blacktext)),
+          Text(g1, style: CustomTextStyle.p3bold(AppColors.blacktext)),
+          Text(t1, style: CustomTextStyle.p4(AppColors.blacktext)),
           Text(''),
-          Text(t2, style: CustomTextStyle.p3bold(AppColors.blacktext)),
-          Text('10/04/2024', style: CustomTextStyle.p4(AppColors.blacktext)),
+          Text(g2, style: CustomTextStyle.p3bold(AppColors.blacktext)),
+          Text(t2, style: CustomTextStyle.p4(AppColors.blacktext)),
         ]),
         Image.asset('lib/assets/images/cnt_trip.png', height: 60, width: 22),
         Column(
@@ -299,11 +298,11 @@ class MyTicket extends State<Ticket> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(s1, style: CustomTextStyle.p3(AppColors.blacktext)),
-            Text(s1, style: CustomTextStyle.p3(AppColors.blacktext)),
+            Text(d1, style: CustomTextStyle.p3(AppColors.blacktext)),
+            Text(sb1, style: CustomTextStyle.p3(AppColors.blacktext)),
             Text(''),
-            Text(s2, style: CustomTextStyle.p3(AppColors.blacktext)),
-            Text(s2, style: CustomTextStyle.p3(AppColors.blacktext)),
+            Text(d2, style: CustomTextStyle.p3(AppColors.blacktext)),
+            Text(sb2, style: CustomTextStyle.p3(AppColors.blacktext)),
           ],
         ),
       ]),
