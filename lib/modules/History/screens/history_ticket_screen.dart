@@ -16,9 +16,8 @@ import '../../../core/app_themes.dart';
 import '../../../global_widgets/text_field.dart';
 
 class History extends StatefulWidget {
-  final bool khuhoi;
 
-  const History({Key? key, required this.khuhoi});
+  const History({Key? key});
 
   @override
   State<StatefulWidget> createState() {
