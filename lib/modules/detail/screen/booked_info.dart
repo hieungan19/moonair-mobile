@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import '../../../core/app_themes.dart';
 import '../../../core/app_colors.dart';
-import '../../../global_widgets/button.dart';
+import '../widgets/booking_widget.dart';
+import '../widgets/booked_widget.dart';
 
-class MyBookingDetail extends StatefulWidget {
-  const MyBookingDetail({super.key});
+class MyBookedInfo extends StatefulWidget {
+  const MyBookedInfo({super.key});
 
   @override
-  State<MyBookingDetail> createState() => _MyBookingDetailState();
+  State<MyBookedInfo> createState() => _MyBookedInfoState();
 }
 
-class _MyBookingDetailState extends State<MyBookingDetail> {
+class _MyBookedInfoState extends State<MyBookedInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: Stack(
-        children: [
+        backgroundColor: AppColors.background,
+        body: Column(children: [
           Container(
-            height: 240,
+            height: 120,
             width: MediaQuery.of(context).size.width,
             color: AppColors.primary,
             child: Padding(
@@ -40,7 +40,7 @@ class _MyBookingDetailState extends State<MyBookingDetail> {
                       Expanded(
                         child: Center(
                           child: Text(
-                            'Chi tiết đặt vé',
+                            'Thông tin vé',
                             style: CustomTextStyle.h3(AppColors.whitetext),
                             textAlign: TextAlign.center,
                           ),
@@ -49,14 +49,15 @@ class _MyBookingDetailState extends State<MyBookingDetail> {
                       const SizedBox(width: 48),
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  Image.asset('lib/assets/icons/Slide_seat4.png'),
                 ],
               ),
             ),
           ),
-        ],
-      ),
-    );
+          Flexible(
+            child: SingleChildScrollView(
+              child: BookedDetail(detail: 1),
+            ),
+          ),
+        ]));
   }
 }
