@@ -1,26 +1,28 @@
-// passenger_form_widget.dart
 import 'package:flutter/material.dart';
 import '../../../global_widgets/text_field.dart';
 import 'package:moonair/core/app_colors.dart';
 import '../../../core/app_themes.dart';
 import '../../../modules/passenger/widgets/DropdownButton.dart';
 
-class PassengerFormWidget extends StatelessWidget {
-  PassengerFormWidget({super.key});
-  final usernameController = TextEditingController();
-  final phonenumberController = TextEditingController();
-  final dateofBirthController = TextEditingController();
-  final passportIDController = TextEditingController();
-  final nationController = TextEditingController();
+class UserPro5FormWidget extends StatelessWidget {
+  final TextEditingController nameController;
+  final TextEditingController emailController;
+  final TextEditingController phoneController;
+  final TextEditingController passportController;
+  final TextEditingController idCardController;
+  final TextEditingController countryController;
+  const UserPro5FormWidget({
+    super.key,
+    required this.nameController,
+    required this.phoneController,
+    required this.passportController,
+    required this.idCardController,
+    required this.countryController,
+    required this.emailController,
+  });
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Padding(
-          padding: const EdgeInsets.only(left: 20, bottom: 16),
-          child: Text(
-            'Hành khách 1',
-            style: CustomTextStyle.h3(AppColors.blacktext),
-          )),
       Padding(
           padding: const EdgeInsets.only(left: 24, bottom: 5),
           child: Text(
@@ -30,8 +32,8 @@ class PassengerFormWidget extends StatelessWidget {
       SizedBox(
           height: 50,
           child: MyTextField(
-            controller: usernameController,
-            hintText: 'Nhập họ tên',
+            controller: nameController,
+            hintText: 'Nguyễn Thanh Thư',
             obscureText: false,
           )),
       const SizedBox(height: 15),
@@ -44,7 +46,7 @@ class PassengerFormWidget extends StatelessWidget {
       SizedBox(
           height: 50,
           child: MyTextField(
-            controller: phonenumberController,
+            controller: phoneController,
             hintText: 'Nhập số điện thoại',
             obscureText: false,
           )),
@@ -52,18 +54,14 @@ class PassengerFormWidget extends StatelessWidget {
       Padding(
           padding: const EdgeInsets.only(left: 24, bottom: 5),
           child: Text(
-            'Ngày sinh',
+            'Email',
             style: CustomTextStyle.p2(AppColors.blacktext),
           )),
       SizedBox(
           height: 50,
           child: MyTextField(
-            controller: dateofBirthController,
-            hintText: 'Nhập ngày sinh',
-            sufficIcon: const Icon(
-              Icons.calendar_today_outlined,
-              color: AppColors.grey2,
-            ),
+            controller: emailController,
+            hintText: 'Nhập email',
             obscureText: false,
           )),
       const SizedBox(height: 15),
@@ -76,7 +74,7 @@ class PassengerFormWidget extends StatelessWidget {
       SizedBox(
           height: 50,
           child: MyTextField(
-            controller: passportIDController,
+            controller: idCardController,
             hintText: 'Nhập passport hoặc căn cước công dân',
             obscureText: false,
           )),
@@ -90,7 +88,7 @@ class PassengerFormWidget extends StatelessWidget {
       SizedBox(
           height: 50,
           child: DropDownBtn(
-            controller: nationController,
+            controller: countryController,
           )),
       const SizedBox(height: 15),
     ]);
