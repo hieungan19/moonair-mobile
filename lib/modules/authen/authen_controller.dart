@@ -52,10 +52,15 @@ class AuthenController extends GetxController {
           Future.delayed(const Duration(seconds: 2), () {
             Get.toNamed(AppRoutes.homePage);
           });
+        } else {
+          throw Error();
         }
       }
     } catch (e) {
-      print(e.toString());
+      showSnackbar(
+          title: "Lỗi",
+          content: "Đăng nhập không thành công",
+          color: Colors.red[400]);
     }
   }
 
@@ -96,13 +101,13 @@ class AuthenController extends GetxController {
             title: "Thành công",
             content: "Đăng nhập thành công",
             color: Colors.green);
+        Future.delayed(const Duration(seconds: 2), () {
+          Get.toNamed(AppRoutes.homePage);
+        });
+      } else {
+        throw Error();
       }
-
-      Future.delayed(const Duration(seconds: 2), () {
-        Get.toNamed(AppRoutes.homePage);
-      });
     } catch (err) {
-      print(err);
       showSnackbar(
           title: "Lỗi",
           content: "Đăng nhập không thành công",
@@ -137,9 +142,11 @@ class AuthenController extends GetxController {
           Get.toNamed(AppRoutes.loginPage);
         });
       } else {
+        print(response.body);
         throw Error();
       }
     } catch (err) {
+      print(err.toString());
       showSnackbar(
           title: "Lỗi",
           content: "Đăng kí không thành công",
@@ -164,6 +171,8 @@ class AuthenController extends GetxController {
             title: "Thành công",
             content: "Mã xác nhận đã gửi thành công",
             color: Colors.green);
+      } else {
+        throw Error();
       }
     } catch (err) {
       showSnackbar(
@@ -189,6 +198,8 @@ class AuthenController extends GetxController {
 
       if (response.statusCode == 200) {
         Get.toNamed(AppRoutes.resetPasswordPage);
+      } else {
+        throw Error();
       }
     } catch (err) {
       showSnackbar(

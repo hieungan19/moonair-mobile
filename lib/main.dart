@@ -42,7 +42,7 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
-  late String initialRoute = AppRoutes.welcomePage;
+  late String initialRoute = AppRoutes.searchTicket;
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

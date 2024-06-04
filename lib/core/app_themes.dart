@@ -84,6 +84,14 @@ class CustomTextStyle extends TextStyle {
         letterSpacing: 0.5);
   }
 
+  static TextStyle p4(Color color) {
+    return GoogleFonts.nunito(
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        color: color,
+        letterSpacing: 0.5);
+  }
+
   static TextStyle button(Color color) {
     return GoogleFonts.inter(
       fontSize: 24,

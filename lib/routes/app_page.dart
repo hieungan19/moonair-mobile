@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:moonair/modules/Ticket/screens/search_ticket_screen.dart';
 import 'package:moonair/modules/authen/authen_binding.dart';
 import 'package:moonair/modules/authen/screens/forgot_password_screen.dart';
 import 'package:moonair/modules/authen/screens/login_screen.dart';
@@ -8,7 +9,7 @@ import 'package:moonair/modules/authen/screens/welcom_screen.dart';
 import 'package:moonair/modules/chatbot/screens/chat_bot_screen.dart';
 import 'package:moonair/modules/home/home_binding.dart';
 import 'package:moonair/modules/home/screen/home_screen.dart';
-import 'package:moonair/modules/noti/screens/home_screen.dart';
+import 'package:moonair/modules/ticket/search_ticket_binding.dart';
 import 'package:moonair/routes/app_route.dart';
 
 class AppPages {
@@ -59,6 +60,15 @@ class AppPages {
       binding: HomeBinding(),
     ),
 
+    //search ticket
+    GetPage(
+      name: AppRoutes.searchTicket,
+      page: () => SearchTicket(
+        khuhoi: true,
+      ),
+      transition: Transition.cupertino,
+      binding: SearchTicketBinding(),
+    ),
     //chatbot
     GetPage(
       name: AppRoutes.chatbotPage,
