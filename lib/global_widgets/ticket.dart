@@ -44,8 +44,8 @@ class MyTicket extends State<Ticket> {
         padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 4),
         child: Container(
           width: MediaQuery.of(context).size.width,
-          height:
-              (widget.detail < 0) ? 203 : ((widget.detail == 1) ? 494 : 236),
+          // height:
+          //     (widget.detail < 0) ? 203 : ((widget.detail == 1) ? 494 : 236),
           decoration: const BoxDecoration(
             boxShadow: [
               BoxShadow(
