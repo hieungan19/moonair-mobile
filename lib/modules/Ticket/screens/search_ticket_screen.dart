@@ -14,68 +14,87 @@ class SearchTicket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.only(top: 45, left: 20, right: 20),
-            color: AppColors.primary,
-            width: MediaQuery.of(context).size.width,
-            height: 145.0,
-            child: Column(
+        body: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          padding: const EdgeInsets.only(top: 45, left: 20, right: 20),
+          color: AppColors.primary,
+          width: MediaQuery.of(context).size.width,
+          height: 145.0,
+          child: Column(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: Image.asset(
-                        'lib/assets/icons/back.png',
-                        color: AppColors.white,
-                      ),
-                    ),
-                    Text(
-                      'Chọn chuyến bay',
-                      style: CustomTextStyle.h3(AppColors.whitetext),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Image.asset(
-                        'lib/assets/icons/message.png',
-                      ),
-                    ),
-                  ],
+                IconButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14.0),
+                              side: const BorderSide(
+                                  width: 2, color: AppColors.primary)))),
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    size: 25,
+                    color: AppColors.primary,
+                  ),
+                  //  Image.asset(
+                  //    'lib/assets/icons/back.png',
+                  //    color: AppColors.primary,
+                  //  ),
                 ),
-                Image.asset('lib/assets/icons/slide_seat.png'),
-                const SizedBox(height: 10),
+                Text(
+                  'Chọn chuyến bay',
+                  style: CustomTextStyle.h3(AppColors.whitetext),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Image.asset(
+                    'lib/assets/icons/message.png',
+                    scale: 2,
+                  ),
+                ),
               ],
             ),
-          ),
+            Image.asset('lib/assets/icons/slide_seat.png'),
+            const SizedBox(height: 10),
+          ]),
+        ),
+        TabBarView(children: [
           Flexible(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
+            child: Container(
+              child: SingleChildScrollView(
+                child: Column(children: [
                   Ticket(detail: 0),
                   Ticket(detail: -1),
                   Ticket(detail: 0),
                   Ticket(detail: -1),
                   Ticket(detail: 1),
-                  Ticket(detail: 0),
-                ],
+                  Ticket(detail: 0)
+                ]),
               ),
             ),
           ),
-          if (khuhoi)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-              child: AppButton(
-                buttonText: 'Chọn chuyến chiều về',
-                onPressedFunction: () {},
+          Flexible(
+            child: Container(
+              child: SingleChildScrollView(
+                child:
+                    Column(children: [Ticket(detail: 0), Ticket(detail: -1)]),
               ),
             ),
-        ],
-      ),
-    );
+          ),
+        ]),
+        if (khuhoi == true)
+          Positioned(
+              child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                  child: AppButton(
+                      buttonText: 'Chọn chuyến chiều về',
+                      onPressedFunction: () {})))
+      ],
+    ));
   }
 }
