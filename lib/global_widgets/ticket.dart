@@ -1,13 +1,6 @@
-import 'dart:ffi' hide Size;
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 import 'package:moonair/core/app_colors.dart';
 import 'package:moonair/core/app_themes.dart';
-import 'package:moonair/global_widgets/button.dart';
 
 class Ticket extends StatefulWidget {
   late int detail;
@@ -252,12 +245,12 @@ class MyTicket extends State<Ticket> {
               ),
             ),
             Padding(
-                padding: const EdgeInsets.only(left: 17, top: 12),
+                padding: EdgeInsets.only(left: 17, top: 12),
                 child: Text('#MaMB',
                     style: CustomTextStyle.p2bold(AppColors.blacktext))),
             Container(
-              margin: const EdgeInsets.fromLTRB(250, 12, 12, 10),
-              padding: const EdgeInsets.all(2),
+              margin: EdgeInsets.fromLTRB(260, 12, 12, 10),
+              padding: EdgeInsets.all(2),
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(20),

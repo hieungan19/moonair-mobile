@@ -1,22 +1,12 @@
-import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/widgets.dart';
 import 'package:moonair/core/app_colors.dart';
-import 'package:moonair/global_widgets/GradientContainer.dart';
 import 'package:moonair/global_widgets/bottom_navbar.dart';
-import 'package:moonair/global_widgets/ticket.dart';
-import 'package:moonair/modules/History/widgets/ticket_in_history.dart';
-import 'package:moonair/modules/History/widgets/top_navbar.dart';
-import 'package:moonair/values/app_assets/app_icons.dart';
-import '../../../global_widgets/button.dart';
+import 'package:moonair/modules/history/widgets/ticket_in_history.dart';
+import 'package:moonair/modules/history/widgets/top_navbar.dart';
+
 import '../../../core/app_themes.dart';
-import '../../../global_widgets/text_field.dart';
 
 class History extends StatefulWidget {
-
   const History({Key? key});
 
   @override
@@ -93,15 +83,15 @@ class HistoryTicket extends State<History> {
           ),
           Flexible(
             child: SingleChildScrollView(
-                child: Column(children: [
-                  TicketInHistory(detail: 0),
-                  TicketInHistory(detail: -1),
-                  TicketInHistory(detail: 0),
-                  TicketInHistory(detail: -1),
-                  TicketInHistory(detail: 0),
-                  TicketInHistory(detail: -1)
-                ]),
-              ),
+              child: Column(children: [
+                TicketInHistory(detail: 0),
+                TicketInHistory(detail: -1),
+                TicketInHistory(detail: 0),
+                TicketInHistory(detail: -1),
+                TicketInHistory(detail: 0),
+                TicketInHistory(detail: -1)
+              ]),
+            ),
           ),
         ],
       ),

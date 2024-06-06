@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../core/app_themes.dart';
 import '../../../core/app_colors.dart';
-import '../widget/seat_widget.dart';
-import '../widget/seat_class_widget.dart';
-import '../widget/seat_row.dart';
+import '../widgets/seat_widget.dart';
+import '../widgets/seat_class_widget.dart';
+import '../widgets/seat_row.dart';
 
 class SeatBooking extends StatefulWidget {
   const SeatBooking({Key? key}) : super(key: key);

@@ -1,13 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:moonair/core/app_colors.dart';
-import 'package:moonair/global_widgets/GradientContainer.dart';
 import 'package:moonair/modules/authen/authen_controller.dart';
-import 'package:moonair/modules/authen/widgets/radio_button.dart';
-import '../../../global_widgets/button.dart';
+
 import '../../../core/app_themes.dart';
+import '../../../global_widgets/button.dart';
 import '../../../global_widgets/text_field.dart';
 
 class SignUpScreen extends StatelessWidget {

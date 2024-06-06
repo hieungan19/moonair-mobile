@@ -1,13 +1,9 @@
-import 'dart:ffi' hide Size;
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 import 'package:moonair/core/app_colors.dart';
 import 'package:moonair/core/app_themes.dart';
-import 'package:moonair/global_widgets/button.dart';
+
+import '../../../global_widgets/button.dart';
 
 class TicketInHistory extends StatefulWidget {
   late int detail;
@@ -134,6 +130,25 @@ class MyTicketInHistory extends State<TicketInHistory> {
                               ],
                             ),
                           ]),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AppButton(
+                              buttonText: 'Hủy',
+                              onPressedFunction: () {},
+                            ),
+                          ),
+                          SizedBox(
+                              width:
+                                  8.0), // Add some spacing between the buttons
+                          Expanded(
+                            child: AppButton(
+                              buttonText: 'Chi tiết',
+                              onPressedFunction: () {},
+                            ),
+                          ),
+                        ],
+                      )
                     ]),
               ),
             ),
@@ -142,7 +157,8 @@ class MyTicketInHistory extends State<TicketInHistory> {
                 child: Text('#MaMB',
                     style: CustomTextStyle.p2bold(AppColors.blacktext))),
             Container(
-              margin: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/3*2-35, 12, 10, 10),
+              margin: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.width / 3 * 2 - 35, 12, 10, 10),
               padding: EdgeInsets.all(2),
               alignment: Alignment.topRight,
               decoration: BoxDecoration(

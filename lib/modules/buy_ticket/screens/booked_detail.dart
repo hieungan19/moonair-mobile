@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../core/app_themes.dart';
+
 import '../../../core/app_colors.dart';
+import '../../../core/app_themes.dart';
 import '../../../global_widgets/button.dart';
-import '../widgets/booking_widget.dart';
 import '../widgets/booked_widget.dart';
+
+//chi tiết đặt vé sau khi thanh toán
 
 class MyBookedDetail extends StatefulWidget {
   const MyBookedDetail({super.key});

@@ -4,6 +4,7 @@ import '../../../core/app_colors.dart';
 import '../widgets/booking_widget.dart';
 import '../widgets/booked_widget.dart';
 
+// Thông tin chi tiết vé
 class MyBookedInfo extends StatefulWidget {
   const MyBookedInfo({super.key});
 

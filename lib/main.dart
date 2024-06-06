@@ -1,14 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:moonair/core/app_themes.dart';
 import 'package:moonair/routes/app_page.dart';
 import 'package:moonair/routes/app_route.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +40,7 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
-  late String initialRoute = AppRoutes.searchTicket;
+  late String initialRoute = AppRoutes.history;
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

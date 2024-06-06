@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
-import 'package:moonair/core/app_themes.dart';
-import 'package:moonair/modules/edit-profile/widgets/CheckBox.dart';
-import 'package:moonair/modules/edit-profile/widgets/UserProfileForm.dart';
 import 'package:moonair/assets/icons/app_icons_icons.dart';
 import 'package:moonair/core/app_colors.dart';
-import 'package:moonair/global_widgets/button.dart';
+import 'package:moonair/core/app_themes.dart';
 import 'package:moonair/global_widgets/bottom_navbar.dart';
-
-void main() {
-  runApp(UserProfileScreen());
-}
+import 'package:moonair/global_widgets/button.dart';
 
 class UserProfileScreen extends StatelessWidget {
   @override
@@ -19,9 +11,9 @@ class UserProfileScreen extends StatelessWidget {
     return MaterialApp(
         home: Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(240.0),
+        preferredSize: const Size.fromHeight(240.0),
         child: AppBar(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(30),
             ),
@@ -30,12 +22,13 @@ class UserProfileScreen extends StatelessWidget {
           elevation: 15,
           backgroundColor: AppColors.primary,
           leading: Container(
-              margin: EdgeInsets.only(
+              margin: const EdgeInsets.only(
                   left: 3.0,
                   bottom: 137.0), // Điều chỉnh margin trái cho nút leading
               child: IconButton(
                 iconSize: 40,
-                icon: Icon(AppIcons.left_square_2, color: AppColors.white),
+                icon:
+                    const Icon(AppIcons.left_square_2, color: AppColors.white),
                 onPressed: () {},
               )),
           flexibleSpace: Padding(
@@ -43,22 +36,22 @@ class UserProfileScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 35,
                   backgroundColor: AppColors.primary,
                   backgroundImage: AssetImage('lib/assets/images/avatar.jpg'),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
                   "Jennifer Lawrence",
                   style: CustomTextStyle.p2(AppColors.white),
                 ),
-                SizedBox(height: 27),
+                const SizedBox(height: 27),
               ],
             ),
           ),
           title: Container(
-            margin: EdgeInsets.only(bottom: 137.0),
+            margin: const EdgeInsets.only(bottom: 137.0),
             child: Text(
               'Chỉnh sửa hồ sơ',
               style: CustomTextStyle.h3(AppColors.white),
@@ -92,7 +85,7 @@ class UserProfileScreen extends StatelessWidget {
               },
             ),
             SizedBox(height: 250),
-            AppButton(buttonText: 'Lưu thông tin', onPressedFunction: () {}),
+            AppButton(buttonText: 'Đăng xuất', onPressedFunction: () {}),
           ],
         )),
       ),

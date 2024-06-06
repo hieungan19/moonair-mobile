@@ -94,7 +94,7 @@ class CustomTextStyle extends TextStyle {
 
   static TextStyle button(Color color) {
     return GoogleFonts.inter(
-      fontSize: 24,
+      fontSize: 20,
       fontWeight: FontWeight.bold,
       color: color,
     );

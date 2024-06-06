@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../modules/seat/widget/seat_widget.dart';
+import 'seat_widget.dart';
 
 class SeatRow extends StatelessWidget {
   final int rowNumber;

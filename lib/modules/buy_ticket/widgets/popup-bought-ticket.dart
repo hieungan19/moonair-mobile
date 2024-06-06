@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:moonair/core/app_colors.dart';
-import '../../../core/app_themes.dart';
+import '../../../../core/app_themes.dart';
 import 'package:moonair/global_widgets/button.dart';
 
 void main() {

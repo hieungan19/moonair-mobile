@@ -3,6 +3,7 @@ import '../../../core/app_themes.dart';
 import '../../../core/app_colors.dart';
 import '../widgets/booking_widget.dart';
 
+// Chi tiết đặt vé để thanh toán
 class MyBookingDetail extends StatefulWidget {
   const MyBookingDetail({super.key});
 
