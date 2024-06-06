@@ -1,4 +1,13 @@
+<<<<<<< HEAD
 import 'dart:async';
+=======
+import 'package:flutter/material.dart';
+import 'package:moonair/modules/authen/screens/login_screen.dart';
+import 'package:moonair/modules/authen/screens/signup_sceen.dart';
+import 'package:moonair/modules/authen/screens/welcom_screen.dart';
+import 'package:moonair/modules/passenger/screens/passenger.dart';
+import 'package:moonair/modules/popup-bought-ticket/popup-bought-ticket.dart';
+>>>>>>> origin/feat/edit-profile
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -54,3 +63,20 @@ class AppState extends State<App> {
     );
   }
 }
+<<<<<<< HEAD
+=======
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Popup_Bought_Ticket();
+  }
+}
+>>>>>>> origin/feat/edit-profile
