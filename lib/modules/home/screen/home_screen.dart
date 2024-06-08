@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:moonair/data/models/airport.dart';
+import 'package:moonair/data/services/data_center.dart';
 import 'package:moonair/modules/home/home_controller.dart';
-import '../../../core/app_themes.dart';
+
 import '../../../core/app_colors.dart';
-import '../widget/small_avatar.dart';
-import '../widget/istransit_button.dart';
-import '../widget/home_textfield.dart';
-import '../widget/select_time.dart';
+import '../../../core/app_themes.dart';
 import '../../../global_widgets/bottom_navbar.dart';
 import '../../../global_widgets/button.dart';
+import '../widget/home_textfield.dart';
+import '../widget/istransit_button.dart';
+import '../widget/select_time.dart';
+import '../widget/small_avatar.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -22,8 +24,14 @@ class _HomeState extends State<Home> {
   final HomeController _controller = Get.find();
   final fromcontroller = TextEditingController();
   final tocontroller = TextEditingController();
-  final passengetnumber = TextEditingController();
-  final String initialDate = DateTime.now().toString().substring(0, 10);
+
+  void updateSelectedDate(String date, String title) {
+    if (title == 'Ngày khởi hành') {
+      _controller.departureDate.value = date;
+    } else if (title == 'Ngày trở lại') {
+      _controller.returnDate.value = date;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +60,8 @@ class _HomeState extends State<Home> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Avatar(
-                          avtimage: 'lib/assets/images/avt.png',
+                        Avatar(
+                          avtimage: DataCenter.user?.photo,
                           size: 50,
                         ),
                         IconButton(
@@ -101,50 +109,205 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
-                            padding:
-                                EdgeInsets.only(top: 5, left: 20, right: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                IsTransitButton(
-                                    name: 'Một chiều',
-                                    prefixIcon: ImageIcon(
-                                      AssetImage(
-                                          'lib/assets/icons/right_arrow.png'),
-                                    )),
-                                IsTransitButton(
-                                    name: 'Khứ hồi',
-                                    prefixIcon: ImageIcon(
-                                      AssetImage(
-                                          'lib/assets/icons/swap_arrow.png'),
-                                    ))
-                              ],
-                            ),
-                          ),
+                          Padding(
+                              padding:
+                                  EdgeInsets.only(top: 5, left: 20, right: 20),
+                              child: Obx(
+                                () => Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: // Trong phần build của widget cha
+                                      [
+                                    IsTransitButton(
+                                      name: 'Một chiều',
+                                      prefixIcon: const ImageIcon(
+                                        AssetImage(
+                                            'lib/assets/icons/right_arrow.png'),
+                                      ),
+                                      isSelected:
+                                          !_controller.isReturnFlight.value,
+                                      onTap: () {
+                                        _controller.isReturnFlight.value =
+                                            false;
+                                      },
+                                    ),
+                                    IsTransitButton(
+                                      name: 'Khứ hồi',
+                                      prefixIcon: const ImageIcon(
+                                        AssetImage(
+                                            'lib/assets/icons/swap_arrow.png'),
+                                      ),
+                                      isSelected:
+                                          _controller.isReturnFlight.value,
+                                      onTap: () {
+                                        _controller.isReturnFlight.value = true;
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              )),
                           const SizedBox(height: 10),
                           Text(
                             'Xuất phát',
                             style: CustomTextStyle.p1bold(AppColors.blacktext),
                           ),
-                          HomeTextField(
-                            controller: fromcontroller,
-                            hintText: 'Xuất phát từ',
-                            obscureText: false,
-                            prefixIcon: const ImageIcon(
-                                AssetImage('lib/assets/icons/flight_from.png')),
+                          Autocomplete<Airport>(
+                            optionsBuilder:
+                                (TextEditingValue textEditingValue) {
+                              if (textEditingValue.text.isEmpty) {
+                                return const Iterable<Airport>.empty();
+                              }
+                              return _controller.airports
+                                  .where((Airport airport) {
+                                return airport.name.toLowerCase().contains(
+                                        textEditingValue.text.toLowerCase()) ||
+                                    airport.city.toLowerCase().contains(
+                                        textEditingValue.text.toLowerCase());
+                              });
+                            },
+                            onSelected: (Airport selection) {
+                              fromcontroller.text =
+                                  '${selection.name} - ${selection.city} ';
+                              _controller.fromAirportId = selection.id;
+                            },
+                            fieldViewBuilder: (BuildContext context,
+                                TextEditingController
+                                    fieldTextEditingController,
+                                FocusNode fieldFocusNode,
+                                VoidCallback onFieldSubmitted) {
+                              return TextField(
+                                controller: fieldTextEditingController,
+                                focusNode: fieldFocusNode,
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 20),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: AppColors.grey2),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primary),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  fillColor: AppColors.white,
+                                  filled: true,
+                                  hintStyle:
+                                      const TextStyle(color: AppColors.info),
+                                  hintText: 'Xuất phát từ',
+                                  prefixIcon: const ImageIcon(AssetImage(
+                                      'lib/assets/icons/flight_from.png')),
+                                ),
+                              );
+                            },
+                            optionsViewBuilder: (BuildContext context,
+                                AutocompleteOnSelected<Airport> onSelected,
+                                Iterable<Airport> options) {
+                              return Material(
+                                elevation: 4.0,
+                                child: SizedBox(
+                                  height: 150.0,
+                                  child: ListView.builder(
+                                    padding: EdgeInsets.zero,
+                                    itemCount: options.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final airport = options.elementAt(index);
+                                      return GestureDetector(
+                                        onTap: () {
+                                          onSelected(airport);
+                                        },
+                                        child: ListTile(
+                                          title: Text(
+                                              '${airport.name} - ${airport.city}'),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                           const SizedBox(height: 10),
                           Text('Đến',
                               style:
                                   CustomTextStyle.p1bold(AppColors.blacktext)),
-                          HomeTextField(
-                            controller: tocontroller,
-                            hintText: 'Đến nơi..',
-                            obscureText: false,
-                            prefixIcon: const ImageIcon(
-                              AssetImage('lib/assets/icons/flight_to.png'),
-                            ),
+                          Autocomplete<Airport>(
+                            optionsBuilder:
+                                (TextEditingValue textEditingValue) {
+                              if (textEditingValue.text.isEmpty) {
+                                return const Iterable<Airport>.empty();
+                              }
+                              return _controller.airports
+                                  .where((Airport airport) {
+                                return airport.name.toLowerCase().contains(
+                                        textEditingValue.text.toLowerCase()) ||
+                                    airport.city.toLowerCase().contains(
+                                        textEditingValue.text.toLowerCase());
+                              });
+                            },
+                            onSelected: (Airport selection) {
+                              fromcontroller.text =
+                                  '${selection.name} - ${selection.city} ';
+                              _controller.toAirportId = selection.id;
+                            },
+                            fieldViewBuilder: (BuildContext context,
+                                TextEditingController
+                                    fieldTextEditingController,
+                                FocusNode fieldFocusNode,
+                                VoidCallback onFieldSubmitted) {
+                              return TextField(
+                                controller: fieldTextEditingController,
+                                focusNode: fieldFocusNode,
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 20),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: AppColors.grey2),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.primary),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  fillColor: AppColors.white,
+                                  filled: true,
+                                  hintStyle:
+                                      const TextStyle(color: AppColors.info),
+                                  hintText: 'Đến nơi',
+                                  prefixIcon: const ImageIcon(AssetImage(
+                                      'lib/assets/icons/flight_to.png')),
+                                ),
+                              );
+                            },
+                            optionsViewBuilder: (BuildContext context,
+                                AutocompleteOnSelected<Airport> onSelected,
+                                Iterable<Airport> options) {
+                              return Material(
+                                elevation: 4.0,
+                                child: SizedBox(
+                                  height: 150.0,
+                                  child: ListView.builder(
+                                    padding: EdgeInsets.zero,
+                                    itemCount: options.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final airport = options.elementAt(index);
+                                      return GestureDetector(
+                                        onTap: () {
+                                          onSelected(airport);
+                                        },
+                                        child: ListTile(
+                                          title: Text(
+                                              '${airport.name} - ${airport.city}'),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                           const SizedBox(height: 10),
                           Text('Thời gian',
@@ -154,20 +317,34 @@ class _HomeState extends State<Home> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               DateContainer(
-                                  title: 'Ngày khởi hành',
-                                  initialDate: initialDate),
-                              DateContainer(
-                                  title: 'Ngày trở lại',
-                                  initialDate: initialDate),
+                                title: 'Ngày khởi hành',
+                                initialDate: _controller.departureDate,
+                                onSelectDate: (date) {
+                                  updateSelectedDate(date, 'Ngày khởi hành');
+                                },
+                              ),
+                              Obx(
+                                () => _controller.isReturnFlight.value == false
+                                    ? SizedBox()
+                                    : DateContainer(
+                                        title: 'Ngày trở lại',
+                                        initialDate: _controller.returnDate,
+                                        onSelectDate: (date) {
+                                          updateSelectedDate(
+                                              date, 'Ngày trở lại');
+                                        },
+                                      ),
+                              )
                             ],
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            'Số hàng khách',
+                            'Số hành khách',
                             style: CustomTextStyle.p1bold(AppColors.blacktext),
                           ),
                           HomeTextField(
-                            controller: passengetnumber,
+                            keyboardType: TextInputType.number,
+                            controller: _controller.seat,
                             hintText: '1 người',
                             obscureText: false,
                             prefixIcon: const ImageIcon(
@@ -176,7 +353,9 @@ class _HomeState extends State<Home> {
                           ),
                           const SizedBox(height: 10),
                           AppButton(
-                              buttonText: 'Tìm kiếm', onPressedFunction: () {})
+                              buttonText: 'Tìm kiếm',
+                              onPressedFunction:
+                                  _controller.navigateToSearchTicketPage)
                         ],
                       ),
                     ),

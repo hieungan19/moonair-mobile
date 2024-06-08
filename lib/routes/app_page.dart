@@ -12,8 +12,6 @@ import 'package:moonair/modules/buy_ticket/screens/booking_detail.dart';
 import 'package:moonair/modules/buy_ticket/screens/passenger.dart';
 import 'package:moonair/modules/buy_ticket/screens/search_ticket_screen.dart';
 import 'package:moonair/modules/buy_ticket/screens/seat_booking.dart';
-import 'package:moonair/modules/buy_ticket/widgets/booked_widget.dart';
-import 'package:moonair/modules/buy_ticket/widgets/booking_widget.dart';
 import 'package:moonair/modules/chatbot/screens/chat_bot_screen.dart';
 import 'package:moonair/modules/edit-profile/edit_profile_binding.dart';
 import 'package:moonair/modules/edit-profile/screens/profile.dart';
@@ -82,9 +80,7 @@ class AppPages {
     //search ticket
     GetPage(
       name: AppRoutes.searchTicket,
-      page: () => SearchTicket(
-        khuhoi: true,
-      ),
+      page: () => SearchTicket(),
       transition: Transition.cupertino,
       binding: BuyTicketBinding(),
     ),

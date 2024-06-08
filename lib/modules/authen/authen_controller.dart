@@ -9,6 +9,7 @@ import 'package:moonair/core/values/api_url.dart';
 import 'package:moonair/data/models/user.dart';
 import 'package:moonair/data/services/data_center.dart';
 import 'package:moonair/routes/app_route.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenController extends GetxController {
   TextEditingController email = TextEditingController();
@@ -24,7 +25,6 @@ class AuthenController extends GetxController {
   signInWithGoogle() async {
     try {
       final GoogleSignInAccount? ggSignInAccount = await _ggSignIn.signIn();
-      print(ggSignInAccount);
       if (ggSignInAccount != null) {
         // Signup voi BE
         var body = jsonEncode({
@@ -42,7 +42,9 @@ class AuthenController extends GetxController {
             body: body);
         if (response.statusCode == 200) {
           var data = jsonDecode(response.body);
+
           DataCenter.token = data["token"];
+          await saveToken(data["token"]);
           DataCenter.user = UserModel.fromJson(data["user"]);
           showSnackbar(
               title: "Thành công",
@@ -80,6 +82,11 @@ class AuthenController extends GetxController {
     Get.toNamed(AppRoutes.forgotPasswordPage);
   }
 
+  Future<void> saveToken(String token) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token);
+  }
+
   void login() async {
     try {
       var url = Uri.parse(UrlValue.loginUrl);
@@ -96,6 +103,7 @@ class AuthenController extends GetxController {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         DataCenter.token = data["token"];
+        await saveToken(data["token"]);
         DataCenter.user = UserModel.fromJson(data["user"]);
         showSnackbar(
             title: "Thành công",

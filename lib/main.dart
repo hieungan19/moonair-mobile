@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +9,13 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:moonair/core/app_themes.dart';
+import 'package:moonair/core/values/api_url.dart';
+import 'package:moonair/data/models/user.dart';
+import 'package:moonair/data/services/data_center.dart';
+import 'package:moonair/data/services/http_service.dart';
 import 'package:moonair/routes/app_page.dart';
 import 'package:moonair/routes/app_route.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,25 +33,43 @@ Future<void> main() async {
   await Stripe.instance.applySettings();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  runApp(const App());
+  final token = await getToken();
+  DataCenter.token = token;
+
+  if (token != null) {
+    var response = await HttpService.getRequest(UrlValue.userInfo);
+    var data = jsonDecode(response.body);
+    DataCenter.user = UserModel.fromJson(data["data"]);
+    DataCenter.user?.printUserInfo();
+  }
+
+  runApp(App(
+      initialRoute:
+          token == null ? AppRoutes.welcomePage : AppRoutes.homePage));
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 class App extends StatefulWidget {
-  const App({super.key});
+  final String initialRoute;
+  const App({super.key, required this.initialRoute});
 
   @override
   // ignore: library_private_types_in_public_api
   AppState createState() => AppState();
 }
 
+// Hàm lấy token từ bộ nhớ
+Future<String?> getToken() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('token');
+}
+
 class AppState extends State<App> {
-  late String initialRoute = AppRoutes.history;
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: initialRoute,
+      initialRoute: widget.initialRoute,
       getPages: AppPages.pages,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,

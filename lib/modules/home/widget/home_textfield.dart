@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import '../../../core/app_colors.dart';
 
 class HomeTextField extends StatelessWidget {
   final controller;
   final String hintText;
   final bool obscureText;
+  final TextInputType keyboardType; // Thêm trường keyboardType
   final ImageIcon? prefixIcon;
   final ImageIcon? sufficIcon;
 
@@ -13,6 +16,7 @@ class HomeTextField extends StatelessWidget {
     required this.controller,
     required this.hintText,
     required this.obscureText,
+    required this.keyboardType, // Thêm trường keyboardType
     this.prefixIcon, //icon ở đầu
     this.sufficIcon, //icon ở đuôi
   });
@@ -23,6 +27,8 @@ class HomeTextField extends StatelessWidget {
       child: TextField(
         controller: controller,
         obscureText: obscureText,
+        keyboardType:
+            keyboardType, // Sử dụng giá trị keyboardType được truyền vào
         decoration: InputDecoration(
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 20),

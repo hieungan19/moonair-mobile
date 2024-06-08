@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Avatar extends StatelessWidget {
-  final String avtimage;
+  final String? avtimage;
   final double size;
 
   const Avatar({
@@ -18,7 +18,7 @@ class Avatar extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         image: DecorationImage(
-          image: AssetImage(avtimage),
+          image: AssetImage(avtimage ?? "lib/assets/images/avatar.jpg"),
           fit: BoxFit.cover,
         ),
       ),

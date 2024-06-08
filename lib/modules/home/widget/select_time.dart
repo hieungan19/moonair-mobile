@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../../../core/app_colors.dart';
 import '../../../core/app_themes.dart';
+import 'package:get/get.dart';
 
 class DateContainer extends StatelessWidget {
   final String title;
-  final String initialDate;
+  final RxString initialDate;
+  final Function(String) onSelectDate;
 
   const DateContainer({
-    super.key,
+    Key? key,
     required this.title,
     required this.initialDate,
-  });
+    required this.onSelectDate,
+  }) : super(key: key);
 
   Future<void> selectDate(BuildContext context) async {
     final ThemeData theme = ThemeData(
@@ -32,7 +34,7 @@ class DateContainer extends StatelessWidget {
     );
 
     if (selected != null) {
-      // Do something with the selected date
+      onSelectDate(selected.toString().substring(0, 10));
     }
   }
 
@@ -53,10 +55,10 @@ class DateContainer extends StatelessWidget {
             title,
             style: CustomTextStyle.p3(AppColors.grey2),
           ),
-          Text(
-            initialDate,
-            style: CustomTextStyle.h4(AppColors.blacktext),
-          ),
+          Obx(() => Text(
+                initialDate.value,
+                style: CustomTextStyle.h4(AppColors.blacktext),
+              )),
           Align(
             alignment: Alignment.centerLeft,
             child: IconButton(

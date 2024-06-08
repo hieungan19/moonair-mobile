@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../../core/app_themes.dart';
+import 'package:get/get.dart';
+import 'package:moonair/data/models/flight.dart';
+import 'package:moonair/modules/buy_ticket/buy_ticket_controller.dart';
+
 import '../../../core/app_colors.dart';
-import '../widgets/seat_widget.dart';
+import '../../../core/app_themes.dart';
 import '../widgets/seat_class_widget.dart';
 import '../widgets/seat_row.dart';
+import '../widgets/seat_widget.dart';
 
 class SeatBooking extends StatefulWidget {
   const SeatBooking({Key? key}) : super(key: key);
@@ -14,6 +18,21 @@ class SeatBooking extends StatefulWidget {
 
 class _SeatBookingScreenState extends State<SeatBooking> {
   final selectedSeat = ValueNotifier<List<String>>([]);
+  final BuyTicketController _controller = Get.find();
+  late Flight flight;
+
+  void initializeFlight() async {
+    flight = Get.arguments as Flight;
+
+    List<Ticket>? tickets = await _controller.fetchOneTicketById(flight.id);
+    flight.updateTickets(tickets);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initializeFlight();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +51,17 @@ class _SeatBookingScreenState extends State<SeatBooking> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.back();
+                      },
                       icon: Image.asset(
                         'lib/assets/icons/back.png',
                         color: AppColors.white,
                       ),
                     ),
                     Text(
-                      ' Chọn chỗ ngồi',
-                      style: CustomTextStyle.h3(AppColors.whitetext),
+                      ' Chuyến bay ${flight.flightCode}',
+                      style: CustomTextStyle.h4(AppColors.whitetext),
                     ),
                     IconButton(
                       onPressed: () {},
@@ -72,9 +93,9 @@ class _SeatBookingScreenState extends State<SeatBooking> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 20, right: 20),
-                    child: SeatClass(),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: SeatClass(ticketClass: flight.tickets),
                   ),
                   Expanded(
                     child: Stack(

@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:moonair/core/app_colors.dart';
 import 'package:moonair/core/app_themes.dart';
+import 'package:moonair/data/models/flight.dart';
+import 'package:intl/intl.dart';
+import 'package:moonair/routes/app_route.dart';
 
 class Ticket extends StatefulWidget {
-  late int detail;
+  final Flight flight;
   final double margin;
   final double borderRadius;
   final double clipRadius;
   final double smallClipRadius;
   final int numberOfSmallClips;
+
   String s;
 
   Ticket({
     Key? key,
-    required this.detail,
+    required this.flight,
     this.margin = 20,
     this.borderRadius = 20,
     this.clipRadius = 5,
@@ -26,10 +31,31 @@ class Ticket extends StatefulWidget {
   State<StatefulWidget> createState() {
     return MyTicket();
   }
+
+  String formatDuration(int minutes) {
+    if (minutes < 60) {
+      return '$minutes m';
+    } else {
+      int hours = minutes ~/ 60;
+      int remainingMinutes = minutes % 60;
+      return '${hours}h  ${remainingMinutes}m';
+    }
+  }
 }
 
 class MyTicket extends State<Ticket> {
   bool state_btn = false;
+  late int detail;
+  late int transitCount;
+  @override
+  void initState() {
+    super.initState();
+    transitCount = widget.flight.transitAirportCount;
+    detail = widget.flight.transitAirportCount > 0
+        ? 0
+        : -1; // Gán giá trị cho detail trong initState
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -68,7 +94,7 @@ class MyTicket extends State<Ticket> {
                     width: 368,
                   )),
             ),
-            if (widget.detail != -1)
+            if (detail != -1)
               Padding(
                 padding: EdgeInsets.fromLTRB(3, 205, 0, 0),
                 child: CustomPaint(
@@ -99,13 +125,15 @@ class MyTicket extends State<Ticket> {
                             Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                Text('Đà Lạt',
+                                Text(widget.flight.departureAirport.city,
                                     style: CustomTextStyle.p3(
                                         AppColors.blacktext)),
-                                Text('09:00 AM',
+                                Text(
+                                    DateFormat('hh:mm a')
+                                        .format(widget.flight.takeoffTime),
                                     style: CustomTextStyle.p1(
                                         AppColors.blacktext)),
-                                Text('Liên Khương',
+                                Text(widget.flight.departureAirport.name,
                                     style:
                                         CustomTextStyle.p2(AppColors.primary)),
                               ],
@@ -114,7 +142,9 @@ class MyTicket extends State<Ticket> {
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text('2h 50m',
+                                Text(
+                                    widget
+                                        .formatDuration(widget.flight.duration),
                                     style: CustomTextStyle.p3bold(
                                         AppColors.blacktext)),
                                 Image.asset(
@@ -124,8 +154,8 @@ class MyTicket extends State<Ticket> {
                                       (MediaQuery.of(context).size.width / 3),
                                 ),
                                 Text(
-                                    widget.detail != -1
-                                        ? '1 điểm dừng'
+                                    detail != -1
+                                        ? '${widget.flight.transitAirportCount} điểm dừng'
                                         : 'Bay thẳng',
                                     style: CustomTextStyle.p3(
                                         AppColors.blacktext)),
@@ -134,13 +164,15 @@ class MyTicket extends State<Ticket> {
                             Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                Text('HCM',
+                                Text(widget.flight.destinationAirport.city,
                                     style: CustomTextStyle.p3(
                                         AppColors.blacktext)),
-                                Text('11:00 AM',
+                                Text(
+                                    DateFormat('hh:mm a')
+                                        .format(widget.flight.landingTime),
                                     style: CustomTextStyle.p1(
                                         AppColors.blacktext)),
-                                Text('Tân Sơn Nhất',
+                                Text(widget.flight.destinationAirport.name,
                                     style:
                                         CustomTextStyle.p2(AppColors.primary)),
                               ],
@@ -153,13 +185,14 @@ class MyTicket extends State<Ticket> {
                             Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Ghế phổ thông',
+                                  Text(widget.flight.nameMinPrice,
                                       style: CustomTextStyle.p2bold(
                                           AppColors.blacktext)),
-                                  Text('Không được hủy',
+                                  Text('Được hủy',
                                       style:
                                           CustomTextStyle.p3(AppColors.grey2)),
-                                  Text('2.560.000 VNĐ',
+                                  Text(
+                                      '${NumberFormat.currency(locale: 'vi').format(widget.flight.minPrice)}',
                                       style: CustomTextStyle.p1bold(
                                           Color(0xFFFAAD14)))
                                 ]),
@@ -169,24 +202,27 @@ class MyTicket extends State<Ticket> {
                                 style: OutlinedButton.styleFrom(
                                   padding: EdgeInsets.all(10),
                                   fixedSize: Size(100, 10),
-                                  backgroundColor: (state_btn)
-                                      ? AppColors.primary
-                                      : Colors.transparent,
+                                  backgroundColor: Colors.transparent,
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(10))),
                                   side: const BorderSide(
                                       color: AppColors.primary),
                                 ),
-                                onPressed: StateButton,
-                                child: Text(state_btn ? 'Đang chọn' : 'Chọn',
-                                    style: CustomTextStyle.p3((state_btn)
-                                        ? AppColors.whitetext
-                                        : AppColors.primary)),
+                                onPressed: () {
+                                  Future.delayed(const Duration(seconds: 1),
+                                      () {
+                                    Get.toNamed(AppRoutes.seatBook,
+                                        arguments: widget.flight);
+                                  });
+                                },
+                                child: Text('Chọn chỗ',
+                                    style:
+                                        CustomTextStyle.p3(AppColors.primary)),
                               ),
                             )
                           ]),
-                      if (widget.detail != -1)
+                      if (detail != -1)
                         Container(
                             padding: EdgeInsets.only(top: 6),
                             height: 33,
@@ -197,7 +233,7 @@ class MyTicket extends State<Ticket> {
                                 Text('Chi tiết chuyến bay',
                                     style: CustomTextStyle.p3bold(
                                         AppColors.grey2)),
-                                (widget.detail == 1)
+                                (detail == 1)
                                     ? const Padding(
                                         padding: EdgeInsets.only(left: 140),
                                         child: Icon(
@@ -224,38 +260,97 @@ class MyTicket extends State<Ticket> {
                                 )
                               ],
                             )),
-                      if (widget.detail == 1)
+                      if (detail == 1)
                         Doichuyen(
-                          '12:30',
-                          '14:30',
-                          '20/04/2024',
-                          '20/04/2024',
-                          'TP. Hồ Chí Minh',
-                          'Taipei',
-                          'Tân Sơn Nhất',
-                          'Taipei',
+                          DateFormat('hh:mm a')
+                              .format(widget.flight.takeoffTime),
+                          DateFormat('hh:mm a').format(widget
+                              .flight.transitAirports[0].transitStartTime),
+                          DateFormat('yyyy-MM-dd')
+                              .format(widget.flight.takeoffTime),
+                          DateFormat('yyyy-MM-dd').format(widget
+                              .flight.transitAirports[0].transitStartTime),
+                          widget.flight.departureAirport.city,
+                          widget.flight.transitAirports[0].airport.city,
+                          widget.flight.departureAirport.name,
+                          widget.flight.transitAirports[0].airport.name,
                         ),
-                      if (widget.detail == 1)
-                        Text('ĐỔI CHUYẾN',
+                      // if (widget.flight.transitAirportCount>1) Doichuyen(
+                      //     DateFormat('hh:mm a')
+                      //         .format(widget.flight.transitAirportCount[i-1].transitStartTime),
+                      //     DateFormat('hh:mm a').format(widget
+                      //         .flight.transitAirports[i].transitStartTime),
+                      //     DateFormat('yyyy-MM-dd')
+                      //         .format(widget.flight.transitAirportCount[i-1].transitStartTime),
+                      //     DateFormat('yyyy-MM-dd').format(widget
+                      //         .flight.transitAirports[i].transitStartTime),
+                      //     widget.flight.transitAirports[i-1].city,
+                      //     widget.flight.transitAirports[i].airport.city,
+                      //     widget.flight.transitAirports[i-1].name,
+                      //     widget.flight.transitAirports[i].airport.name,
+                      //   ),
+
+                      if (widget.flight.transitAirportCount > 1)
+                        Column(
+                            children: List.generate(
+                                widget.flight.transitAirportCount - 1, (i) {
+                          if (i == 0)
+                            return Container(); // Skip the first element if necessary
+                          return Doichuyen(
+                            DateFormat('hh:mm a').format(widget.flight
+                                .transitAirports[i - 1].transitStartTime),
+                            DateFormat('hh:mm a').format(widget
+                                .flight.transitAirports[i].transitStartTime),
+                            DateFormat('yyyy-MM-dd').format(widget.flight
+                                .transitAirports[i - 1].transitStartTime),
+                            DateFormat('yyyy-MM-dd').format(widget
+                                .flight.transitAirports[i].transitStartTime),
+                            widget.flight.transitAirports[i - 1].airport.city,
+                            widget.flight.transitAirports[i].airport.city,
+                            widget.flight.transitAirports[i - 1].airport.name,
+                            widget.flight.transitAirports[i].airport.name,
+                          );
+                        })),
+                      if (detail == 1)
+                        Text('Đổi chuyến',
                             style: CustomTextStyle.p1bold(AppColors.primary)),
-                      if (widget.detail == 1)
-                        Doichuyen('17:30', '20:20', '20/04/2024', '20/04/2024',
-                            'Taipei', 'New York', 'Taipei', 'New York'),
+                      if (detail == 1)
+                        Doichuyen(
+                          DateFormat('hh:mm a').format(widget
+                              .flight
+                              .transitAirports[transitCount - 1]
+                              .transitStartTime),
+                          DateFormat('hh:mm a')
+                              .format(widget.flight.landingTime),
+                          DateFormat('yyyy-MM-dd').format(widget
+                              .flight
+                              .transitAirports[transitCount - 1]
+                              .transitStartTime),
+                          DateFormat('yyyy-MM-dd')
+                              .format(widget.flight.landingTime),
+                          widget.flight.transitAirports[transitCount - 1]
+                              .airport.city,
+                          widget.flight.destinationAirport.city,
+                          widget.flight.transitAirports[transitCount - 1]
+                              .airport.name,
+                          widget.flight.destinationAirport.name,
+                        ),
                     ]),
               ),
             ),
             Padding(
                 padding: EdgeInsets.only(left: 17, top: 12),
-                child: Text('#MaMB',
+                child: Text(widget.flight.flightCode,
                     style: CustomTextStyle.p2bold(AppColors.blacktext))),
             Container(
-              margin: EdgeInsets.fromLTRB(260, 12, 12, 10),
+              margin: EdgeInsets.fromLTRB(250, 12, 12, 10),
               padding: EdgeInsets.all(2),
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Text('20/04/2024',
+              child: Text(
+                  DateFormat('yyyy-MM-dd').format(widget.flight.takeoffTime),
                   style: CustomTextStyle.p3bold(AppColors.blacktext)),
             ),
           ]),
@@ -264,15 +359,9 @@ class MyTicket extends State<Ticket> {
     );
   }
 
-  void StateButton() {
-    setState(() {
-      state_btn = !state_btn;
-    });
-  }
-
   void doitrangthai() {
     setState(() {
-      (widget.detail == 1) ? widget.detail = 0 : widget.detail = 1;
+      (detail == 1) ? detail = 0 : detail = 1;
     });
   }
 
