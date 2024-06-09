@@ -11,6 +11,7 @@ class Flight {
   final String aircraftName;
   final int minPrice;
   final String nameMinPrice;
+  final int price;
   final List<TransitAirport> transitAirports;
   List<Ticket>? tickets; // Cho phép null
 
@@ -28,6 +29,7 @@ class Flight {
     required this.minPrice,
     required this.nameMinPrice,
     required this.transitAirports,
+    required this.price,
     this.tickets,
   });
 
@@ -49,15 +51,13 @@ class Flight {
       transitAirportCount: json['transitAirportCount'],
       aircraftName: json['aircraftName'],
       minPrice: json['minPrice'],
+      price: json['price'],
       nameMinPrice: json['nameMinPrice'],
-      transitAirports: (json['transitAirports'] as List<dynamic>)
-          .map((transitAirport) => TransitAirport.fromJson(transitAirport))
-          .toList(),
-      tickets: json['tickets'] != null
-          ? (json['tickets'] as List<dynamic>)
-              .map((ticket) => Ticket.fromJson(ticket))
+      transitAirports: json['transitAiports'] != null
+          ? (json['transitAiports'] as List<dynamic>)
+              .map((transitAirport) => TransitAirport.fromJson(transitAirport))
               .toList()
-          : null,
+          : [],
     );
   }
 }
@@ -111,25 +111,53 @@ class TransitAirport {
   }
 }
 
+class Passenger {
+  String passengerName;
+  String phoneNumber;
+  DateTime dateOfBirth;
+
+  Passenger({
+    required this.passengerName,
+    required this.phoneNumber,
+    required this.dateOfBirth,
+  });
+
+  // Optional: Add a factory constructor to create a Passenger from a Map (for example, if you're parsing JSON data)
+  factory Passenger.fromMap(Map<String, dynamic> map) {
+    return Passenger(
+      passengerName: map['passengerName'],
+      phoneNumber: map['phoneNumber'],
+      dateOfBirth: DateTime.parse(map['dateOfBirth']),
+    );
+  }
+}
+
 class Ticket {
   final String id;
   final String className;
   final int numOfTickets;
-  final List<String> seatsBooked;
-
-  Ticket({
-    required this.id,
-    required this.className,
-    required this.numOfTickets,
-    required this.seatsBooked,
-  });
+  final List<int> seatsBooked;
+  final double ratio;
+  List<int>? chooseSeats;
+  Map<int, Passenger>? chooseSeatsPasInfo;
+  Ticket(
+      {required this.id,
+      required this.className,
+      required this.numOfTickets,
+      required this.seatsBooked,
+      required this.ratio,
+      List<int>? chooseSeats,
+      Map<int, Passenger>? chooseSeatsPasInfo})
+      : chooseSeats = chooseSeats ?? [],
+        chooseSeatsPasInfo = chooseSeatsPasInfo ?? {};
 
   factory Ticket.fromJson(Map<String, dynamic> json) {
     return Ticket(
-      id: json['class']['_id'],
-      className: json['class']['name'],
-      numOfTickets: json['numOfTic'],
-      seatsBooked: List<String>.from(json['seatsBooked']),
-    );
+        id: json['class']['_id'],
+        className: json['class']['name'],
+        ratio: json['class']['ratio'],
+        numOfTickets: json['numOfTic'],
+        seatsBooked: List<int>.from(json['seatsBooked']),
+        chooseSeatsPasInfo: {});
   }
 }

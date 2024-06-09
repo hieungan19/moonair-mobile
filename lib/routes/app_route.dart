@@ -10,6 +10,7 @@ class AppRoutes {
   static const resetPasswordPage = '/resetPassword';
   //home
 
+  static const base = '/base';
   static const seatBook = '/seat';
   static const passenger = '/passenger';
   static const payment = '/payment';

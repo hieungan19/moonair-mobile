@@ -1,13 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:moonair/data/models/flight.dart';
+import 'package:moonair/global_widgets/ticket.dart';
+import 'package:moonair/modules/buy_ticket/buy_ticket_controller.dart';
+
 import '../../../core/app_colors.dart';
 import '../../../core/app_themes.dart';
-import 'dash_line.dart';
+
+class DashedLinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    double dashWidth = 5;
+    double dashSpace = 3;
+    double startX = 0;
+    final paint = Paint()
+      ..color = AppColors.grey2.withOpacity(.5)
+      ..strokeWidth = 1;
+
+    while (startX < size.width) {
+      canvas.drawLine(
+        Offset(startX, 0),
+        Offset(startX + dashWidth, 0),
+        paint,
+      );
+      startX += dashWidth + dashSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
 
 class BookingDetail extends StatelessWidget {
-  const BookingDetail({super.key});
+  int seat;
+  BookingDetail({super.key, required this.seat});
+  final BuyTicketController _controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
+    Flight flight = _controller.currentFlight.value!;
+    Ticket tickets = _controller.currentTicketClass.value!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(15),
@@ -37,11 +70,11 @@ class BookingDetail extends StatelessWidget {
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Text('Đà Lạt',
+                      Text(flight.departureAirport.city,
                           style: CustomTextStyle.p3(AppColors.blacktext)),
-                      Text('09:00 AM',
+                      Text(DateFormat('hh:mm a').format(flight.takeoffTime),
                           style: CustomTextStyle.p1(AppColors.blacktext)),
-                      Text('Liên Khương',
+                      Text(flight.departureAirport.name,
                           style: CustomTextStyle.p2(AppColors.primary)),
                     ],
                   ),
@@ -49,25 +82,28 @@ class BookingDetail extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text('2h 50m',
+                      Text(formatDuration(flight.duration),
                           style: CustomTextStyle.p3bold(AppColors.blacktext)),
                       Image.asset(
                         'lib/assets/images/flight_line.png',
                         height: 25,
                         width: MediaQuery.of(context).size.width / 3 - 10,
                       ),
-                      Text('Bay thẳng',
+                      Text(
+                          flight.transitAirportCount < 0
+                              ? 'Bay thẳng'
+                              : '${flight.transitAirportCount} điểm dừng',
                           style: CustomTextStyle.p3(AppColors.blacktext)),
                     ],
                   ),
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Text('HCM',
+                      Text(flight.destinationAirport.city,
                           style: CustomTextStyle.p3(AppColors.blacktext)),
-                      Text('11:00 AM',
+                      Text(DateFormat('hh:mm a').format(flight.landingTime),
                           style: CustomTextStyle.p1(AppColors.blacktext)),
-                      Text('Tân Sơn Nhất',
+                      Text(flight.destinationAirport.name,
                           style: CustomTextStyle.p2(AppColors.primary)),
                     ],
                   ),
@@ -93,7 +129,7 @@ class BookingDetail extends StatelessWidget {
                         style: CustomTextStyle.p3(AppColors.blacktext),
                       ),
                       Text(
-                        'Nguyễn Thanh Thư',
+                        tickets.chooseSeatsPasInfo![seat]!.passengerName,
                         style: CustomTextStyle.p2bold(AppColors.primary),
                       )
                     ],
@@ -107,7 +143,7 @@ class BookingDetail extends StatelessWidget {
                         style: CustomTextStyle.p3(AppColors.blacktext),
                       ),
                       Text(
-                        '0819278173',
+                        tickets.chooseSeatsPasInfo![seat]!.phoneNumber,
                         style: CustomTextStyle.p2bold(AppColors.primary),
                       ),
                     ],
@@ -121,7 +157,8 @@ class BookingDetail extends StatelessWidget {
                         style: CustomTextStyle.p3(AppColors.blacktext),
                       ),
                       Text(
-                        '22/02/2022',
+                        DateFormat('dd/MM/yyyy').format(
+                            tickets.chooseSeatsPasInfo![seat]!.dateOfBirth),
                         style: CustomTextStyle.p2bold(AppColors.primary),
                       )
                     ],
@@ -152,7 +189,7 @@ class BookingDetail extends StatelessWidget {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            'SBB2',
+                            flight.flightCode,
                             style: CustomTextStyle.p2bold(AppColors.blacktext),
                           ),
                           const SizedBox(height: 10),
@@ -162,7 +199,7 @@ class BookingDetail extends StatelessWidget {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            '12/02/2024',
+                            DateFormat('dd/MM/yyyy').format(flight.takeoffTime),
                             style: CustomTextStyle.p2bold(AppColors.blacktext),
                           ),
                         ],
@@ -171,12 +208,12 @@ class BookingDetail extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Mã vé',
+                            '',
                             style: CustomTextStyle.p3(AppColors.grey2),
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            'Mave',
+                            '',
                             style: CustomTextStyle.p2bold(AppColors.blacktext),
                           ),
                           const SizedBox(height: 10),
@@ -186,7 +223,7 @@ class BookingDetail extends StatelessWidget {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            '12:30 pm',
+                            DateFormat('hh:mm a').format(flight.takeoffTime),
                             style: CustomTextStyle.p2bold(AppColors.blacktext),
                           ),
                         ],
@@ -200,7 +237,7 @@ class BookingDetail extends StatelessWidget {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            'B2',
+                            seat.toString(),
                             style: CustomTextStyle.p2bold(AppColors.blacktext),
                           ),
                           const SizedBox(height: 10),
@@ -210,7 +247,7 @@ class BookingDetail extends StatelessWidget {
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            'Thương gia',
+                            tickets.className,
                             style: CustomTextStyle.p2bold(AppColors.blacktext),
                           ),
                         ],
@@ -250,7 +287,8 @@ class BookingDetail extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: Text('2000000 vnd',
+                      child: Text(
+                          '${NumberFormat.currency(locale: 'vi').format(flight.price * tickets.ratio)}',
                           style: CustomTextStyle.p1bold(AppColors.primary)),
                     ),
                   ),

@@ -64,7 +64,7 @@ class SearchTicket extends StatelessWidget {
                 child: Obx(
               () => Column(
                 children: _controller.flights.map((flight) {
-                  return Ticket(flight: flight);
+                  return TicketWidget(flight: flight);
                 }).toList(),
               ),
             )),

@@ -44,8 +44,7 @@ Future<void> main() async {
   }
 
   runApp(App(
-      initialRoute:
-          token == null ? AppRoutes.welcomePage : AppRoutes.homePage));
+      initialRoute: token == null ? AppRoutes.welcomePage : AppRoutes.base));
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}

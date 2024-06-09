@@ -56,7 +56,7 @@ class _BookedDetailState extends State<BookedDetail> {
                             style: CustomTextStyle.p3(AppColors.blacktext)),
                         Text('09:00 AM',
                             style: CustomTextStyle.p1(AppColors.blacktext)),
-                        Text('Liên Khương',
+                        Text('Liên K',
                             style: CustomTextStyle.p2(AppColors.primary)),
                       ],
                     ),

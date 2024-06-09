@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:moonair/core/app_colors.dart';
 import 'package:moonair/data/models/flight.dart';
-import 'package:moonair/data/models/flight.dart';
 import 'package:moonair/modules/buy_ticket/buy_ticket_controller.dart';
 
 class SeatClass extends StatefulWidget {
@@ -16,7 +15,7 @@ class SeatClass extends StatefulWidget {
 class _SeatClassState extends State<SeatClass> {
   late String dropdownValue;
   late String selectedClassId; // Biến để lưu trữ ID của class được chọn
-  BuyTicketController _controller = Get.find();
+  final BuyTicketController _controller = Get.find();
   @override
   void initState() {
     super.initState();
@@ -46,9 +45,8 @@ class _SeatClassState extends State<SeatClass> {
           setState(() {
             dropdownValue = newValue!;
           });
-          _controller.currentClass.value = widget.ticketClass!
-              .firstWhere((ticket) => ticket.className == newValue)
-              .id;
+          _controller.currentTicketClass.value = widget.ticketClass!
+              .firstWhere((ticket) => ticket.className == newValue);
         },
         items: widget.ticketClass?.map((Ticket ticket) {
           return DropdownMenuItem<String>(

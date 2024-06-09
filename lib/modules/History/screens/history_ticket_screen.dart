@@ -20,21 +20,42 @@ class HistoryTicket extends State<History> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.only(top: 45, left: 20, right: 20),
-            color: AppColors.white,
-            width: MediaQuery.of(context).size.width,
-            height: 144.0,
-            child: Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  IconButton(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          padding: const EdgeInsets.only(top: 45, left: 20, right: 20),
+          color: AppColors.white,
+          width: MediaQuery.of(context).size.width,
+          height: 144.0,
+          child: Column(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                IconButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14.0),
+                              side: const BorderSide(
+                                  width: 2, color: AppColors.primary)))),
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    size: 25,
+                    color: AppColors.primary,
+                  ),
+                  //  Image.asset(
+                  //    'lib/assets/icons/back.png',
+                  //    color: AppColors.primary,
+                  //  ),
+                ),
+                Text(
+                  'Lịch sử vé',
+                  style: CustomTextStyle.h3(AppColors.primary),
+                ),
+                IconButton(
                     style: ButtonStyle(
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -44,58 +65,32 @@ class HistoryTicket extends State<History> {
                                         width: 2, color: AppColors.primary)))),
                     onPressed: () {},
                     icon: const Icon(
-                      Icons.arrow_back,
+                      Icons.search,
                       size: 25,
                       color: AppColors.primary,
+                    )
+                    // Image.asset(
+                    //   'lib/assets/icons/message.png', scale: 2,
+                    // ),
                     ),
-                    //  Image.asset(
-                    //    'lib/assets/icons/back.png',
-                    //    color: AppColors.primary,
-                    //  ),
-                  ),
-                  Text(
-                    'Lịch sử vé',
-                    style: CustomTextStyle.h3(AppColors.primary),
-                  ),
-                  IconButton(
-                      style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(14.0),
-                                      side: const BorderSide(
-                                          width: 2,
-                                          color: AppColors.primary)))),
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.search,
-                        size: 25,
-                        color: AppColors.primary,
-                      )
-                      // Image.asset(
-                      //   'lib/assets/icons/message.png', scale: 2,
-                      // ),
-                      ),
-                ],
-              ),
-              const TopNavBar(),
+              ],
+            ),
+            const TopNavBar(),
+          ]),
+        ),
+        Flexible(
+          child: SingleChildScrollView(
+            child: Column(children: [
+              TicketInHistory(detail: 0),
+              TicketInHistory(detail: -1),
+              TicketInHistory(detail: 0),
+              TicketInHistory(detail: -1),
+              TicketInHistory(detail: 0),
+              TicketInHistory(detail: -1)
             ]),
           ),
-          Flexible(
-            child: SingleChildScrollView(
-              child: Column(children: [
-                TicketInHistory(detail: 0),
-                TicketInHistory(detail: -1),
-                TicketInHistory(detail: 0),
-                TicketInHistory(detail: -1),
-                TicketInHistory(detail: 0),
-                TicketInHistory(detail: -1)
-              ]),
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: const NavBar(),
+        ),
+      ],
     );
   }
 }

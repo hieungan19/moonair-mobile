@@ -35,9 +35,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SizedBox(
+    return Container(
+      color: AppColors.background,
+      child: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Stack(
           children: [
@@ -366,7 +366,6 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      bottomNavigationBar: const NavBar(),
     );
   }
 }

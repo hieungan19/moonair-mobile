@@ -1,13 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:moonair/core/app_colors.dart';
-import '../../../../core/app_themes.dart';
 import 'package:moonair/global_widgets/button.dart';
+import 'package:moonair/routes/app_route.dart';
 
-void main() {
-  runApp(Popup_Bought_Ticket());
-}
+import '../../../../core/app_themes.dart';
 
 class Popup_Bought_Ticket extends StatelessWidget {
   const Popup_Bought_Ticket({super.key});
@@ -17,10 +14,10 @@ class Popup_Bought_Ticket extends StatelessWidget {
         child: Container(
             height: 430,
             decoration: BoxDecoration(
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: AppColors.gray400,
-                  offset: const Offset(
+                  offset: Offset(
                     5.0,
                     5.0,
                   ),
@@ -29,7 +26,7 @@ class Popup_Bought_Ticket extends StatelessWidget {
                 ),
                 BoxShadow(
                   color: AppColors.white,
-                  offset: const Offset(0.0, 0.0),
+                  offset: Offset(0.0, 0.0),
                   blurRadius: 0.0,
                   spreadRadius: 0.0,
                 ),
@@ -49,7 +46,7 @@ class Popup_Bought_Ticket extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.check_circle_outline,
                         color: AppColors.secondary,
                         size: 40,
@@ -68,11 +65,9 @@ class Popup_Bought_Ticket extends StatelessWidget {
                       textAlign: TextAlign.center,
                     )),
                 AppButton(
-                  onPressedFunction: () {},
-                  buttonText: 'Xem vé',
-                ),
-                AppButton(
-                  onPressedFunction: () {},
+                  onPressedFunction: () {
+                    Get.toNamed(AppRoutes.homePage);
+                  },
                   buttonText: 'Trang chủ',
                 ),
               ],

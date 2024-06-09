@@ -9,7 +9,7 @@ Future createPaymentIntent({required String amount}) async {
 
   final body = {
     'amount': amount,
-    'currency': 'usd',
+    'currency': 'vnd',
     'automatic_payment_methods[enabled]': 'true',
     'description': "Flight Payment",
   };

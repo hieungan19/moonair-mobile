@@ -15,4 +15,7 @@ class UrlValue {
 
   // flight
   static final airports = "$app/airports";
+
+  //invoice
+  static final invoices = '$app/invoices';
 }

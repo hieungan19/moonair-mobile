@@ -4,9 +4,21 @@ import 'package:moonair/core/app_colors.dart';
 import 'package:moonair/core/app_themes.dart';
 import 'package:moonair/data/models/flight.dart';
 import 'package:intl/intl.dart';
+import 'package:moonair/modules/buy_ticket/buy_ticket_controller.dart';
 import 'package:moonair/routes/app_route.dart';
+import 'package:moonair/data/models/flight.dart';
 
-class Ticket extends StatefulWidget {
+String formatDuration(int minutes) {
+  if (minutes < 60) {
+    return '$minutes m';
+  } else {
+    int hours = minutes ~/ 60;
+    int remainingMinutes = minutes % 60;
+    return '${hours}h  ${remainingMinutes}m';
+  }
+}
+
+class TicketWidget extends StatefulWidget {
   final Flight flight;
   final double margin;
   final double borderRadius;
@@ -16,7 +28,7 @@ class Ticket extends StatefulWidget {
 
   String s;
 
-  Ticket({
+  TicketWidget({
     Key? key,
     required this.flight,
     this.margin = 20,
@@ -31,19 +43,9 @@ class Ticket extends StatefulWidget {
   State<StatefulWidget> createState() {
     return MyTicket();
   }
-
-  String formatDuration(int minutes) {
-    if (minutes < 60) {
-      return '$minutes m';
-    } else {
-      int hours = minutes ~/ 60;
-      int remainingMinutes = minutes % 60;
-      return '${hours}h  ${remainingMinutes}m';
-    }
-  }
 }
 
-class MyTicket extends State<Ticket> {
+class MyTicket extends State<TicketWidget> {
   bool state_btn = false;
   late int detail;
   late int transitCount;
@@ -56,6 +58,7 @@ class MyTicket extends State<Ticket> {
         : -1; // Gán giá trị cho detail trong initState
   }
 
+  BuyTicketController _buyTicketController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -142,9 +145,7 @@ class MyTicket extends State<Ticket> {
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(
-                                    widget
-                                        .formatDuration(widget.flight.duration),
+                                Text(formatDuration(widget.flight.duration),
                                     style: CustomTextStyle.p3bold(
                                         AppColors.blacktext)),
                                 Image.asset(
@@ -209,7 +210,14 @@ class MyTicket extends State<Ticket> {
                                   side: const BorderSide(
                                       color: AppColors.primary),
                                 ),
-                                onPressed: () {
+                                onPressed: () async {
+                                  _buyTicketController.currentFlight.value =
+                                      widget.flight;
+                                  List<Ticket>? tickets =
+                                      await _buyTicketController
+                                          .fetchOneTicketById(widget.flight.id);
+                                  _buyTicketController.currentFlight.value!
+                                      .updateTickets(tickets);
                                   Future.delayed(const Duration(seconds: 1),
                                       () {
                                     Get.toNamed(AppRoutes.seatBook,
@@ -319,13 +327,13 @@ class MyTicket extends State<Ticket> {
                           DateFormat('hh:mm a').format(widget
                               .flight
                               .transitAirports[transitCount - 1]
-                              .transitStartTime),
+                              .transitEndTime),
                           DateFormat('hh:mm a')
                               .format(widget.flight.landingTime),
                           DateFormat('yyyy-MM-dd').format(widget
                               .flight
                               .transitAirports[transitCount - 1]
-                              .transitStartTime),
+                              .transitEndTime),
                           DateFormat('yyyy-MM-dd')
                               .format(widget.flight.landingTime),
                           widget.flight.transitAirports[transitCount - 1]

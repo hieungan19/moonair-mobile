@@ -5,6 +5,8 @@ import 'package:moonair/modules/authen/screens/login_screen.dart';
 import 'package:moonair/modules/authen/screens/reset_password_screen.dart';
 import 'package:moonair/modules/authen/screens/signup_sceen.dart';
 import 'package:moonair/modules/authen/screens/welcom_screen.dart';
+import 'package:moonair/modules/base/base_binding.dart';
+import 'package:moonair/modules/base/base_screen.dart';
 import 'package:moonair/modules/buy_ticket/buy_ticket_binding.dart';
 import 'package:moonair/modules/buy_ticket/screens/booked_detail.dart';
 import 'package:moonair/modules/buy_ticket/screens/booked_info.dart';
@@ -70,6 +72,14 @@ class AppPages {
 
     //2. Home
     //home
+
+    GetPage(
+      name: AppRoutes.base,
+      page: () => BaseScreen(),
+      transition: Transition.cupertino,
+      binding: BaseBinding(),
+    ),
+
     GetPage(
       name: AppRoutes.homePage,
       page: () => Home(),
@@ -143,5 +153,8 @@ class AppPages {
       transition: Transition.cupertino,
       binding: BuyTicketBinding(),
     ),
+
+    //test payment
+    //history
   ];
 }
