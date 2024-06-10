@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:moonair/data/models/flightInHistory.dart';
+import 'package:moonair/global_widgets/ticket.dart';
 import '../../../core/app_colors.dart';
 import '../../../core/app_themes.dart';
-import 'dash_line.dart';
+import 'package:intl/intl.dart';
 
 class BookedDetail extends StatefulWidget {
-  int detail;
-  final String s;
+  final BoughtTicket ticket;
 
   BookedDetail({
     super.key,
-    required this.detail,
-    this.s = '',
+    required this.ticket,
   });
 
   @override
@@ -19,6 +19,16 @@ class BookedDetail extends StatefulWidget {
 
 class _BookedDetailState extends State<BookedDetail> {
   bool stateBtn = false;
+  late int transitCount;
+  late BoughtTicket t;
+  late FlightHistory flight;
+  @override
+  void initState() {
+    super.initState();
+    transitCount = widget.ticket.flight!.transitAirports.length;
+    flight = widget.ticket.flight!;
+    t = widget.ticket;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,50 +57,52 @@ class _BookedDetailState extends State<BookedDetail> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text('Đà Lạt',
-                            style: CustomTextStyle.p3(AppColors.blacktext)),
-                        Text('09:00 AM',
-                            style: CustomTextStyle.p1(AppColors.blacktext)),
-                        Text('Liên K',
-                            style: CustomTextStyle.p2(AppColors.primary)),
-                      ],
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text('2h 50m',
-                            style: CustomTextStyle.p3bold(AppColors.blacktext)),
-                        Image.asset(
-                          'lib/assets/images/flight_line.png',
-                          height: 25,
-                          width: MediaQuery.of(context).size.width / 3 - 20,
-                        ),
-                        Text(
-                          widget.detail != -1 ? '1 điểm dừng' : 'Bay thẳng',
-                          style: CustomTextStyle.p3(AppColors.blacktext),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text('HCM',
-                            style: CustomTextStyle.p3(AppColors.blacktext)),
-                        Text('11:00 AM',
-                            style: CustomTextStyle.p1(AppColors.blacktext)),
-                        Text('Tân Sơn Nhất',
-                            style: CustomTextStyle.p2(AppColors.primary)),
-                      ],
-                    ),
-                  ],
-                ),
-                if (widget.detail == 1) ...[
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(flight.departureAirport.city,
+                              style: CustomTextStyle.p3(AppColors.blacktext)),
+                          Text(DateFormat('hh:mm a').format(flight.takeoffTime),
+                              style: CustomTextStyle.p1(AppColors.blacktext)),
+                          Text(flight.departureAirport.name,
+                              style: CustomTextStyle.p2(AppColors.primary)),
+                        ],
+                      ),
+                      Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(formatDuration(flight.duration),
+                              style:
+                                  CustomTextStyle.p3bold(AppColors.blacktext)),
+                          Image.asset(
+                            'lib/assets/images/flight_line.png',
+                            height: 30,
+                            width: (MediaQuery.of(context).size.width / 3),
+                          ),
+                          Text(
+                              widget.ticket.flight!.transitAirports.isNotEmpty
+                                  ? ' ${widget.ticket.flight!.transitAirports.length}điểm dừng'
+                                  : 'Bay thẳng',
+                              style: CustomTextStyle.p3(AppColors.blacktext)),
+                        ],
+                      ),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(flight.destinationAirport.city,
+                              style: CustomTextStyle.p3(AppColors.blacktext)),
+                          Text(DateFormat('hh:mm a').format(flight.landingTime),
+                              style: CustomTextStyle.p1(AppColors.blacktext)),
+                          Text(flight.destinationAirport.name,
+                              style: CustomTextStyle.p2(AppColors.primary)),
+                        ],
+                      ),
+                    ]),
+                if (transitCount > 0) ...[
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: CustomPaint(
@@ -99,19 +111,50 @@ class _BookedDetailState extends State<BookedDetail> {
                     ),
                   ),
                   doichuyen(
-                    '12:30',
-                    '14:30',
-                    '10/04/2024',
-                    '20/04/2024',
-                    'TP. Hồ Chí Minh',
-                    'Taipei',
-                    'Tân Sơn Nhất',
-                    'Taipei',
+                    DateFormat('hh:mm a').format(flight.takeoffTime),
+                    DateFormat('hh:mm a')
+                        .format(flight.transitAirports[0].transitStartTime),
+                    DateFormat('yyyy-MM-dd').format(flight.takeoffTime),
+                    DateFormat('yyyy-MM-dd')
+                        .format(flight.transitAirports[0].transitStartTime),
+                    flight.departureAirport.city,
+                    flight.transitAirports[0].airport.city,
+                    flight.departureAirport.name,
+                    flight.transitAirports[0].airport.name,
                   ),
-                  Text('ĐỔI CHUYẾN',
-                      style: CustomTextStyle.p1bold(AppColors.primary)),
-                  doichuyen('17:30', '20:20', '20/04/2024', '20/04/2024',
-                      'Taipei', 'New York', 'Taipei', 'New York'),
+                  if (transitCount > 1)
+                    Column(
+                        children: List.generate(transitCount - 1, (i) {
+                      if (i == 0)
+                        return Container(); // Skip the first element if necessary
+                      return doichuyen(
+                        DateFormat('hh:mm a').format(
+                            flight.transitAirports[i - 1].transitStartTime),
+                        DateFormat('hh:mm a')
+                            .format(flight.transitAirports[i].transitStartTime),
+                        DateFormat('yyyy-MM-dd').format(
+                            flight.transitAirports[i - 1].transitStartTime),
+                        DateFormat('yyyy-MM-dd')
+                            .format(flight.transitAirports[i].transitStartTime),
+                        flight.transitAirports[i - 1].airport.city,
+                        flight.transitAirports[i].airport.city,
+                        flight.transitAirports[i - 1].airport.name,
+                        flight.transitAirports[i].airport.name,
+                      );
+                    })),
+                  if (transitCount > 0)
+                    doichuyen(
+                      DateFormat('hh:mm a').format(flight
+                          .transitAirports[transitCount - 1].transitEndTime),
+                      DateFormat('hh:mm a').format(flight.landingTime),
+                      DateFormat('yyyy-MM-dd').format(flight
+                          .transitAirports[transitCount - 1].transitEndTime),
+                      DateFormat('yyyy-MM-dd').format(flight.landingTime),
+                      flight.transitAirports[transitCount - 1].airport.city,
+                      flight.destinationAirport.city,
+                      flight.transitAirports[transitCount - 1].airport.name,
+                      flight.destinationAirport.name,
+                    ),
                 ],
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -127,7 +170,7 @@ class _BookedDetailState extends State<BookedDetail> {
                       children: [
                         Text('Tên',
                             style: CustomTextStyle.p3(AppColors.blacktext)),
-                        Text('Nguyễn Thanh Thư',
+                        Text(t.passengerName,
                             style: CustomTextStyle.p2bold(AppColors.primary)),
                       ],
                     ),
@@ -137,7 +180,7 @@ class _BookedDetailState extends State<BookedDetail> {
                       children: [
                         Text('Số điện thoại',
                             style: CustomTextStyle.p3(AppColors.blacktext)),
-                        Text('0819278173',
+                        Text(t.phoneNumber,
                             style: CustomTextStyle.p2bold(AppColors.primary)),
                       ],
                     ),
@@ -147,7 +190,7 @@ class _BookedDetailState extends State<BookedDetail> {
                       children: [
                         Text('Ngày sinh',
                             style: CustomTextStyle.p3(AppColors.blacktext)),
-                        Text('22/02/2022',
+                        Text(DateFormat('dd/MM/yyyy').format(t.dateOfBirth),
                             style: CustomTextStyle.p2bold(AppColors.primary)),
                       ],
                     ),
@@ -171,14 +214,16 @@ class _BookedDetailState extends State<BookedDetail> {
                             Text('Mã CB',
                                 style: CustomTextStyle.p3(AppColors.grey2)),
                             const SizedBox(height: 5),
-                            Text('SBB2',
+                            Text(flight.code,
                                 style: CustomTextStyle.p2bold(
                                     AppColors.blacktext)),
                             const SizedBox(height: 10),
                             Text('Ngày đi',
                                 style: CustomTextStyle.p3(AppColors.grey2)),
                             const SizedBox(height: 5),
-                            Text('12/02/2024',
+                            Text(
+                                DateFormat('dd/MM/yyyy')
+                                    .format(flight.takeoffTime),
                                 style: CustomTextStyle.p2bold(
                                     AppColors.blacktext)),
                           ],
@@ -189,14 +234,16 @@ class _BookedDetailState extends State<BookedDetail> {
                             Text('Mã vé',
                                 style: CustomTextStyle.p3(AppColors.grey2)),
                             const SizedBox(height: 5),
-                            Text('Mave',
+                            Text(t.code,
                                 style: CustomTextStyle.p2bold(
                                     AppColors.blacktext)),
                             const SizedBox(height: 10),
                             Text('Giờ bay',
                                 style: CustomTextStyle.p3(AppColors.grey2)),
                             const SizedBox(height: 5),
-                            Text('12:30 pm',
+                            Text(
+                                DateFormat('hh:mm a')
+                                    .format(flight.takeoffTime),
                                 style: CustomTextStyle.p2bold(
                                     AppColors.blacktext)),
                           ],
@@ -207,14 +254,14 @@ class _BookedDetailState extends State<BookedDetail> {
                             Text('Ghế ngồi',
                                 style: CustomTextStyle.p3(AppColors.grey2)),
                             const SizedBox(height: 5),
-                            Text('B2',
+                            Text(t.seatNo.toString(),
                                 style: CustomTextStyle.p2bold(
                                     AppColors.blacktext)),
                             const SizedBox(height: 10),
                             Text('Hạng ghế',
                                 style: CustomTextStyle.p3(AppColors.grey2)),
                             const SizedBox(height: 5),
-                            Text('Thương gia',
+                            Text(t.ticketClass!.name,
                                 style: CustomTextStyle.p2bold(
                                     AppColors.blacktext)),
                           ],
@@ -223,18 +270,41 @@ class _BookedDetailState extends State<BookedDetail> {
                     ),
                   ],
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: CustomPaint(
+                      painter: DashedLinePainter(),
+                      child: const SizedBox(
+                        width: double.infinity,
+                      )),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Giá vé',
+                      style: CustomTextStyle.h4(AppColors.grey2),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.secondary,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text(
+                            '${NumberFormat.currency(locale: 'vi').format(t.price)}',
+                            style: CustomTextStyle.p1bold(AppColors.primary)),
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  void doitrangthai() {
-    setState(() {
-      widget.detail = widget.detail == 1 ? 0 : 1;
-    });
   }
 
   Widget doichuyen(String g1, String g2, String t1, String t2, String d1,

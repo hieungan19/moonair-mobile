@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:moonair/assets/icons/app_icons_icons.dart';
 import 'package:moonair/core/app_colors.dart';
 import 'package:moonair/core/app_themes.dart';
+import 'package:moonair/data/services/data_center.dart';
 import 'package:moonair/global_widgets/button.dart';
+import 'package:moonair/routes/app_route.dart';
 
 class UserProfileScreen extends StatelessWidget {
   @override
@@ -45,7 +48,7 @@ class UserProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "Jennifer Lawrence",
+                    DataCenter.user!.name,
                     style: CustomTextStyle.p2(AppColors.white),
                   ),
                   const SizedBox(height: 27),
@@ -79,7 +82,7 @@ class UserProfileScreen extends StatelessWidget {
                           style: CustomTextStyle.p1(AppColors.text),
                         ),
                         onTap: () {
-                          // Navigate to edit profile screen
+                          Get.toNamed(AppRoutes.editProfile);
                         },
                       ),
                       ListTile(
@@ -90,6 +93,7 @@ class UserProfileScreen extends StatelessWidget {
                         ),
                         onTap: () {
                           // Navigate to airport policy screen
+                          Get.toNamed(AppRoutes.editProfile);
                         },
                       ),
                     ],

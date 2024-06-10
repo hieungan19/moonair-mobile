@@ -1,96 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:moonair/core/app_colors.dart';
-import 'package:moonair/global_widgets/bottom_navbar.dart';
-import 'package:moonair/modules/history/widgets/ticket_in_history.dart';
-import 'package:moonair/modules/history/widgets/top_navbar.dart';
+import 'package:moonair/modules/history/history_controller.dart';
+import 'package:moonair/modules/history/screens/history_ticket_cancel.dart';
+import 'package:moonair/modules/history/screens/history_ticket_paid.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/app_themes.dart';
 
-class History extends StatefulWidget {
-  const History({Key? key});
-
-  @override
-  State<StatefulWidget> createState() {
-    return HistoryTicket();
-  }
-}
-
-class HistoryTicket extends State<History> {
-  HistoryTicket();
+class History extends StatelessWidget {
+  const History({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.only(top: 45, left: 20, right: 20),
-          color: AppColors.white,
-          width: MediaQuery.of(context).size.width,
-          height: 144.0,
-          child: Column(children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                IconButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14.0),
-                              side: const BorderSide(
-                                  width: 2, color: AppColors.primary)))),
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    size: 25,
-                    color: AppColors.primary,
-                  ),
-                  //  Image.asset(
-                  //    'lib/assets/icons/back.png',
-                  //    color: AppColors.primary,
-                  //  ),
-                ),
-                Text(
-                  'Lịch sử vé',
-                  style: CustomTextStyle.h3(AppColors.primary),
-                ),
-                IconButton(
-                    style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(14.0),
-                                    side: const BorderSide(
-                                        width: 2, color: AppColors.primary)))),
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.search,
-                      size: 25,
-                      color: AppColors.primary,
-                    )
-                    // Image.asset(
-                    //   'lib/assets/icons/message.png', scale: 2,
-                    // ),
-                    ),
-              ],
-            ),
-            const TopNavBar(),
-          ]),
+    // Sử dụng Get.find để tìm HistoryController
+    final HistoryController historyController = Get.put(HistoryController());
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Lịch sử vé', style: CustomTextStyle.h3(AppColors.primary)),
+        backgroundColor: AppColors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: AppColors.primary),
+          onPressed: () {
+            // Xử lý khi nhấn nút back
+          },
         ),
-        Flexible(
-          child: SingleChildScrollView(
-            child: Column(children: [
-              TicketInHistory(detail: 0),
-              TicketInHistory(detail: -1),
-              TicketInHistory(detail: 0),
-              TicketInHistory(detail: -1),
-              TicketInHistory(detail: 0),
-              TicketInHistory(detail: -1)
-            ]),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search, color: AppColors.primary),
+            onPressed: () {
+              // Xử lý khi nhấn nút search
+            },
+          ),
+        ],
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(50),
+          child: TabBar(
+            controller: historyController.tabController,
+            labelColor: AppColors.primary,
+            unselectedLabelColor: AppColors.grey2,
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicatorPadding: EdgeInsets.symmetric(horizontal: 25),
+            indicatorWeight: 5,
+            indicator: UnderlineTabIndicator(
+                borderSide:
+                    const BorderSide(width: 5, color: AppColors.primary),
+                borderRadius: BorderRadius.circular(20)),
+            tabs: [
+              Tab(
+                height: 40,
+                child: Text('Đã đặt',
+                    style: GoogleFonts.nunito(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5)),
+              ),
+              Tab(
+                height: 40,
+                child: Text('Đã hủy',
+                    style: GoogleFonts.nunito(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5)),
+              ),
+            ],
           ),
         ),
-      ],
+      ),
+      body: TabBarView(
+        controller: historyController.tabController,
+        children: const [
+          HistoryPaidTicket(),
+          HistoryCanceledTicket(),
+        ],
+      ),
     );
   }
 }

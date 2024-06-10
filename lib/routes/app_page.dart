@@ -8,8 +8,7 @@ import 'package:moonair/modules/authen/screens/welcom_screen.dart';
 import 'package:moonair/modules/base/base_binding.dart';
 import 'package:moonair/modules/base/base_screen.dart';
 import 'package:moonair/modules/buy_ticket/buy_ticket_binding.dart';
-import 'package:moonair/modules/buy_ticket/screens/booked_detail.dart';
-import 'package:moonair/modules/buy_ticket/screens/booked_info.dart';
+import 'package:moonair/modules/history/screens/booked_detail.dart';
 import 'package:moonair/modules/buy_ticket/screens/booking_detail.dart';
 import 'package:moonair/modules/buy_ticket/screens/passenger.dart';
 import 'package:moonair/modules/buy_ticket/screens/search_ticket_screen.dart';
@@ -21,6 +20,7 @@ import 'package:moonair/modules/history/screens/history_ticket_screen.dart';
 import 'package:moonair/modules/home/home_binding.dart';
 import 'package:moonair/modules/home/screen/home_screen.dart';
 import 'package:moonair/routes/app_route.dart';
+import '../modules/history/history_binding.dart';
 
 import '../modules/edit-profile/screens/edit_profile.dart';
 
@@ -131,13 +131,7 @@ class AppPages {
       transition: Transition.cupertino,
       binding: BuyTicketBinding(),
     ),
-    //Sau khi thanh toán
-    GetPage(
-      name: AppRoutes.paidTickets,
-      page: () => MyBookedInfo(),
-      transition: Transition.cupertino,
-      binding: BuyTicketBinding(),
-    ),
+
     // Chi tiết từng vé
     GetPage(
       name: AppRoutes.ticketDetail,
@@ -151,10 +145,18 @@ class AppPages {
       name: AppRoutes.history,
       page: () => History(),
       transition: Transition.cupertino,
-      binding: BuyTicketBinding(),
+      binding: HistoryBinding(),
     ),
 
     //test payment
     //history
+
+    // user
+    GetPage(
+      name: AppRoutes.editProfile,
+      page: () => EditProfile(),
+      transition: Transition.cupertino,
+      binding: EditProfileBinding(),
+    ),
   ];
 }

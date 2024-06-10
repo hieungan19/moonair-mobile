@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:moonair/core/app_colors.dart';
 import 'package:moonair/core/app_themes.dart';
+import 'package:moonair/data/models/flightInHistory.dart';
+import 'package:moonair/modules/history/history_controller.dart';
+import 'package:moonair/modules/history/widgets/pop_up_cancel_ticket.dart';
 
 import '../../../global_widgets/button.dart';
+import '../../../global_widgets/ticket.dart';
 
 class TicketInHistory extends StatefulWidget {
-  late int detail;
+  late BoughtTicket ticket;
   final double margin;
   final double borderRadius;
   final double clipRadius;
@@ -16,7 +22,7 @@ class TicketInHistory extends StatefulWidget {
 
   TicketInHistory({
     Key? key,
-    required this.detail,
+    required this.ticket,
     this.margin = 20,
     this.borderRadius = 20,
     this.clipRadius = 5,
@@ -33,8 +39,10 @@ class TicketInHistory extends StatefulWidget {
 
 class MyTicketInHistory extends State<TicketInHistory> {
   bool state_btn = false;
+  final HistoryController _controller = Get.find();
   @override
   Widget build(BuildContext context) {
+    FlightHistory flight = widget.ticket.flight!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 4),
@@ -75,7 +83,7 @@ class MyTicketInHistory extends State<TicketInHistory> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -83,13 +91,15 @@ class MyTicketInHistory extends State<TicketInHistory> {
                             Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                Text('Đà Lạt',
+                                Text(flight.departureAirport.city,
                                     style: CustomTextStyle.p3(
                                         AppColors.blacktext)),
-                                Text('09:00 AM',
+                                Text(
+                                    DateFormat('hh:mm a')
+                                        .format(flight.takeoffTime),
                                     style: CustomTextStyle.p1(
                                         AppColors.blacktext)),
-                                Text('Liên Khương',
+                                Text(flight.departureAirport.name,
                                     style:
                                         CustomTextStyle.p2(AppColors.primary)),
                               ],
@@ -98,7 +108,7 @@ class MyTicketInHistory extends State<TicketInHistory> {
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text('2h 50m',
+                                Text(formatDuration(flight.duration),
                                     style: CustomTextStyle.p3bold(
                                         AppColors.blacktext)),
                                 Image.asset(
@@ -108,8 +118,9 @@ class MyTicketInHistory extends State<TicketInHistory> {
                                       (MediaQuery.of(context).size.width / 3),
                                 ),
                                 Text(
-                                    widget.detail != -1
-                                        ? '1 điểm dừng'
+                                    widget.ticket.flight!.transitAirports
+                                            .isNotEmpty
+                                        ? ' ${widget.ticket.flight!.transitAirports.length}điểm dừng'
                                         : 'Bay thẳng',
                                     style: CustomTextStyle.p3(
                                         AppColors.blacktext)),
@@ -118,43 +129,63 @@ class MyTicketInHistory extends State<TicketInHistory> {
                             Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                Text('HCM',
+                                Text(flight.destinationAirport.city,
                                     style: CustomTextStyle.p3(
                                         AppColors.blacktext)),
-                                Text('11:00 AM',
+                                Text(
+                                    DateFormat('hh:mm a')
+                                        .format(flight.landingTime),
                                     style: CustomTextStyle.p1(
                                         AppColors.blacktext)),
-                                Text('Tân Sơn Nhất',
+                                Text(flight.destinationAirport.name,
                                     style:
                                         CustomTextStyle.p2(AppColors.primary)),
                               ],
                             ),
                           ]),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: AppButton(
-                              buttonText: 'Hủy',
-                              onPressedFunction: () {},
+                      Container(
+                        width: 1000,
+                        child: Row(
+                          children: [
+                            widget.ticket.status == true
+                                ? Expanded(
+                                    child: AppButton(
+                                      buttonText: 'Hủy',
+                                      onPressedFunction: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return PopUpCancelTicket(
+                                              id: widget.ticket.id,
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  )
+                                : SizedBox(),
+                            const SizedBox(
+                                width:
+                                    8.0), // Add some spacing between the buttons
+                            Expanded(
+                              child: AppButton(
+                                buttonText: 'Chi tiết',
+                                onPressedFunction: () {
+                                  print("Hehe");
+                                  _controller
+                                      .navigateToDetailInfo(widget.ticket);
+                                },
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                              width:
-                                  8.0), // Add some spacing between the buttons
-                          Expanded(
-                            child: AppButton(
-                              buttonText: 'Chi tiết',
-                              onPressedFunction: () {},
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       )
                     ]),
               ),
             ),
             Padding(
-                padding: EdgeInsets.only(left: 17, top: 12),
-                child: Text('#MaMB',
+                padding: const EdgeInsets.only(left: 17, top: 12),
+                child: Text(flight.code,
                     style: CustomTextStyle.p2bold(AppColors.blacktext))),
             Container(
               margin: EdgeInsets.fromLTRB(
@@ -165,19 +196,13 @@ class MyTicketInHistory extends State<TicketInHistory> {
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Text('20/04/2024',
+              child: Text(DateFormat('dd/MM/yyyy').format(flight.takeoffTime),
                   style: CustomTextStyle.p2bold(AppColors.blacktext)),
             ),
           ]),
         ),
       ),
     );
-  }
-
-  void doitrangthai() {
-    setState(() {
-      (widget.detail == 1) ? widget.detail = 0 : widget.detail = 1;
-    });
   }
 }
 

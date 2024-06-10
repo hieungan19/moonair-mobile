@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:moonair/data/models/flightInHistory.dart';
+import 'package:moonair/modules/history/history_controller.dart';
+import 'package:moonair/modules/history/widgets/pop_up_cancel_ticket.dart';
 
 import '../../../core/app_colors.dart';
 import '../../../core/app_themes.dart';
@@ -15,6 +19,8 @@ class MyBookedDetail extends StatefulWidget {
 }
 
 class _MyBookedDetailState extends State<MyBookedDetail> {
+  HistoryController _controller = Get.find();
+  final BoughtTicket ticket = Get.arguments;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +40,7 @@ class _MyBookedDetailState extends State<MyBookedDetail> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          Navigator.pop(context); // Go back to previous screen
+                          Get.back();
                         },
                         icon: Image.asset(
                           'lib/assets/icons/back.png',
@@ -63,13 +69,15 @@ class _MyBookedDetailState extends State<MyBookedDetail> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  BookedDetail(detail: -1),
+                  BookedDetail(
+                    ticket: ticket,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15.0, vertical: 10),
                     child: Container(
-                        height: 100,
-                        width: MediaQuery.of(context).size.width,
+                        height: 200,
+                        width: MediaQuery.of(context).size.width / 2,
                         decoration: BoxDecoration(
                           color: AppColors.white,
                           borderRadius: BorderRadius.circular(10),
@@ -83,12 +91,26 @@ class _MyBookedDetailState extends State<MyBookedDetail> {
                             ),
                           ],
                         ),
-                        child: Image.asset(
-                          'lib/assets/images/code.png',
+                        child: Image.network(
+                          'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${ticket.id}',
+                          height: 50,
+                          width: MediaQuery.of(context).size.width / 3,
                         )),
                   ),
-                  AppButton(buttonText: 'Tải mã vé', onPressedFunction: () {}),
-                  AppButton(buttonText: 'Hủy vé', onPressedFunction: () {}),
+                  ticket.status == true
+                      ? AppButton(
+                          buttonText: 'Hủy vé',
+                          onPressedFunction: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return PopUpCancelTicket(
+                                  id: ticket.id,
+                                );
+                              },
+                            );
+                          })
+                      : SizedBox(),
                   const SizedBox(height: 50),
                 ],
               ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:moonair/assets/icons/app_icons_icons.dart';
 import 'package:moonair/core/app_colors.dart';
 import 'package:moonair/core/app_themes.dart';
+import 'package:moonair/data/services/data_center.dart';
 import 'package:moonair/global_widgets/button.dart';
 import 'package:moonair/modules/edit-profile/widgets/CheckBox.dart';
 import 'package:moonair/modules/edit-profile/widgets/UserProfileForm.dart';
@@ -43,7 +45,9 @@ class EditProfile extends StatelessWidget {
               child: IconButton(
                 iconSize: 40,
                 icon: Icon(AppIcons.left_square_2, color: AppColors.white),
-                onPressed: () {},
+                onPressed: () {
+                  Get.back();
+                },
               )),
           flexibleSpace: Padding(
             padding: const EdgeInsets.only(top: 16.0),
@@ -56,7 +60,7 @@ class EditProfile extends StatelessWidget {
                   backgroundImage: AssetImage('lib/assets/images/avatar.jpg'),
                   child: IconButton(
                     iconSize: 35,
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.file_upload_outlined,
                       color: AppColors.white,
                     ),
@@ -65,7 +69,7 @@ class EditProfile extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  "Jennifer Lawrence",
+                  DataCenter.user!.name,
                   style: CustomTextStyle.p2(AppColors.white),
                 ),
                 SizedBox(height: 27),

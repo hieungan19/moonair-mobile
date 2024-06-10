@@ -18,4 +18,9 @@ class UrlValue {
 
   //invoice
   static final invoices = '$app/invoices';
+  //history
+  static final history = '$app/history';
+
+  //cancel ticket
+  static final cancelTicket = '$app/invoices/ticket';
 }

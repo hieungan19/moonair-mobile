@@ -1,29 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:moonair/core/app_colors.dart';
-import 'package:moonair/core/app_themes.dart';
+import 'package:moonair/modules/history/history_controller.dart';
 
-class TopNavBar extends StatefulWidget {
-  const TopNavBar({Key? key}) : super(key: key);
-  @override
-  State<TopNavBar> createState() => _TopNavBarState();
-}
-
-class _TopNavBarState extends State<TopNavBar> with TickerProviderStateMixin {
-  late TabController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TabController(length: 2, vsync: this);
-  }
-
+class TopNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return TabBar(
+    // Khởi tạo controller
+    final HistoryController historyController = Get.put(HistoryController());
+
+    return Obx(() => TabBar(
           labelColor: AppColors.primary,
           dividerColor: Colors.transparent,
           unselectedLabelColor: AppColors.grey2,
@@ -52,7 +39,7 @@ class _TopNavBarState extends State<TopNavBar> with TickerProviderStateMixin {
                       letterSpacing: 0.5)),
             ),
           ],
-          controller: _controller,
-        );
+          controller: historyController.tabController,
+        ));
   }
 }

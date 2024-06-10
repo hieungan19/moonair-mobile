@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:moonair/core/app_colors.dart';
 import 'package:moonair/global_widgets/button.dart';
+import 'package:moonair/modules/history/history_controller.dart';
 import 'package:moonair/routes/app_route.dart';
 
 import '../../../../core/app_themes.dart';
 
-class Popup_Bought_Ticket extends StatelessWidget {
-  const Popup_Bought_Ticket({super.key});
+class PopUpCancelTicket extends StatelessWidget {
+  final String id;
+  PopUpCancelTicket({super.key, required this.id});
+  final HistoryController _controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return Dialog(
         child: Container(
-            height: 430,
+            height: 200,
             decoration: BoxDecoration(
               boxShadow: const [
                 BoxShadow(
@@ -39,8 +42,11 @@ class Popup_Bought_Ticket extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Center(
-                  child:
-                      Image.asset('lib/assets/logo/sc_waiting.png', scale: 4),
+                  child: Image.asset(
+                    'lib/assets/logo/sc_waiting.png',
+                    width: 80,
+                    height: 80,
+                  ),
                 ),
                 Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,22 +59,15 @@ class Popup_Bought_Ticket extends StatelessWidget {
                         weight: 40,
                       ),
                       Text(
-                        "Đặt vé thành công",
+                        "Xác nhận hủy vé.",
                         style: CustomTextStyle.h3(AppColors.blacktext),
                       )
                     ]),
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-                    child: Text(
-                      "Cảm ơn đã chọn dịch vụ của chúng tôi",
-                      style: CustomTextStyle.p2(AppColors.blacktext),
-                      textAlign: TextAlign.center,
-                    )),
                 AppButton(
                   onPressedFunction: () {
-                    Get.toNamed(AppRoutes.base);
+                    _controller.cancelOneTicket(context: context, id: id);
                   },
-                  buttonText: 'Trang chủ',
+                  buttonText: 'Hủy vé',
                 ),
               ],
             )));
