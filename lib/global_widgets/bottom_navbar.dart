@@ -3,11 +3,10 @@ import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:moonair/core/app_colors.dart';
-import 'package:moonair/core/app_themes.dart';
-import 'package:moonair/modules/base/bottomAppBarController.dart';
+import 'package:moonair/modules/base/base_controller.dart';
 
 class NavBar extends StatelessWidget {
-  final BottomAppBarController _controller = Get.find<BottomAppBarController>();
+  final BaseController _controller = Get.find<BaseController>();
 
   @override
   Widget build(BuildContext context) {

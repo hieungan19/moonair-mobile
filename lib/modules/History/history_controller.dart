@@ -28,6 +28,15 @@ class HistoryController extends GetxController
     super.onClose();
   }
 
+  // kiem tra co the huy ve khong
+  bool canCancelTicket(DateTime takeoffTime, int deadlineForCancelingTicket) {
+    DateTime now = DateTime.now();
+    Duration difference = takeoffTime.difference(now);
+    int differenceInMinutes = difference.inMinutes;
+
+    return differenceInMinutes > deadlineForCancelingTicket;
+  }
+
   Future<void> fetchHistory() async {
     try {
       canceledTickets = <BoughtTicket>[].obs;

@@ -4,6 +4,7 @@ import 'package:moonair/core/app_colors.dart';
 import 'package:moonair/core/app_themes.dart';
 import 'package:moonair/data/models/flight.dart';
 import 'package:intl/intl.dart';
+import 'package:moonair/data/services/data_center.dart';
 import 'package:moonair/modules/buy_ticket/buy_ticket_controller.dart';
 import 'package:moonair/routes/app_route.dart';
 import 'package:moonair/data/models/flight.dart';
@@ -46,6 +47,19 @@ class TicketWidget extends StatefulWidget {
 }
 
 class MyTicket extends State<TicketWidget> {
+  bool canSelectSeat() {
+    _buyTicketController.currentFlight.value = widget.flight;
+
+    DateTime takeOffTime =
+        _buyTicketController.currentFlight.value!.takeoffTime;
+    DateTime now = DateTime.now();
+
+    Duration difference = takeOffTime.difference(now);
+    int differenceInMinutes = difference.inMinutes;
+
+    return differenceInMinutes > DataCenter.rule!.latestTimeForBooking;
+  }
+
   bool state_btn = false;
   late int detail;
   late int transitCount;
@@ -211,18 +225,27 @@ class MyTicket extends State<TicketWidget> {
                                       color: AppColors.primary),
                                 ),
                                 onPressed: () async {
-                                  _buyTicketController.currentFlight.value =
-                                      widget.flight;
-                                  List<Ticket>? tickets =
-                                      await _buyTicketController
-                                          .fetchOneTicketById(widget.flight.id);
-                                  _buyTicketController.currentFlight.value!
-                                      .updateTickets(tickets);
-                                  Future.delayed(const Duration(seconds: 1),
-                                      () {
-                                    Get.toNamed(AppRoutes.seatBook,
-                                        arguments: widget.flight);
-                                  });
+                                  if (canSelectSeat()) {
+                                    List<Ticket>? tickets =
+                                        await _buyTicketController
+                                            .fetchOneTicketById(
+                                                widget.flight.id);
+                                    _buyTicketController.currentFlight.value!
+                                        .updateTickets(tickets);
+                                    Future.delayed(const Duration(seconds: 1),
+                                        () {
+                                      Get.toNamed(AppRoutes.seatBook);
+                                    });
+                                  } else {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text(
+                                        "Không thể đặt vé cho chuyến bay này.",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      backgroundColor: Colors.redAccent,
+                                    ));
+                                  }
                                 },
                                 child: Text('Chọn chỗ',
                                     style:
@@ -283,21 +306,6 @@ class MyTicket extends State<TicketWidget> {
                           widget.flight.departureAirport.name,
                           widget.flight.transitAirports[0].airport.name,
                         ),
-                      // if (widget.flight.transitAirportCount>1) Doichuyen(
-                      //     DateFormat('hh:mm a')
-                      //         .format(widget.flight.transitAirportCount[i-1].transitStartTime),
-                      //     DateFormat('hh:mm a').format(widget
-                      //         .flight.transitAirports[i].transitStartTime),
-                      //     DateFormat('yyyy-MM-dd')
-                      //         .format(widget.flight.transitAirportCount[i-1].transitStartTime),
-                      //     DateFormat('yyyy-MM-dd').format(widget
-                      //         .flight.transitAirports[i].transitStartTime),
-                      //     widget.flight.transitAirports[i-1].city,
-                      //     widget.flight.transitAirports[i].airport.city,
-                      //     widget.flight.transitAirports[i-1].name,
-                      //     widget.flight.transitAirports[i].airport.name,
-                      //   ),
-
                       if (widget.flight.transitAirportCount > 1)
                         Column(
                             children: List.generate(

@@ -5,9 +5,11 @@ import 'package:moonair/core/app_colors.dart';
 import 'package:moonair/core/app_themes.dart';
 import 'package:moonair/data/services/data_center.dart';
 import 'package:moonair/global_widgets/button.dart';
+import 'package:moonair/modules/authen/authen_controller.dart';
 import 'package:moonair/routes/app_route.dart';
 
 class UserProfileScreen extends StatelessWidget {
+  final AuthenController _authenController = Get.put(AuthenController());
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -103,8 +105,11 @@ class UserProfileScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child:
-                  AppButton(buttonText: 'Đăng xuất', onPressedFunction: () {}),
+              child: AppButton(
+                  buttonText: 'Đăng xuất',
+                  onPressedFunction: () {
+                    _authenController.logout();
+                  }),
             ),
           ],
         ),

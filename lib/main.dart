@@ -10,12 +10,31 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:moonair/core/app_themes.dart';
 import 'package:moonair/core/values/api_url.dart';
+import 'package:moonair/data/models/rule.dart';
 import 'package:moonair/data/models/user.dart';
 import 'package:moonair/data/services/data_center.dart';
 import 'package:moonair/data/services/http_service.dart';
 import 'package:moonair/routes/app_page.dart';
 import 'package:moonair/routes/app_route.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+Future<void> fetchRule() async {
+  try {
+    final response = await HttpService.getRequest(UrlValue.rule);
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print(data);
+      if (data['status'] == 'success') {
+        var docs = data['doc'] as List;
+        DataCenter.rule = Rule.fromJson(docs[0]);
+      }
+    } else {
+      print('Failed to load rule');
+    }
+  } catch (e) {
+    print('Error: $e');
+  }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,6 +62,7 @@ Future<void> main() async {
     DataCenter.user?.printUserInfo();
   }
 
+  await fetchRule();
   runApp(App(
       initialRoute: token == null ? AppRoutes.welcomePage : AppRoutes.base));
 }

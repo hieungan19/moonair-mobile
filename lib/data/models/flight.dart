@@ -155,7 +155,9 @@ class Ticket {
     return Ticket(
         id: json['class']['_id'],
         className: json['class']['name'],
-        ratio: json['class']['ratio'],
+        ratio: json['class'] != null && json['class']['ratio'] != null
+            ? (json['class']['ratio'] as num).toDouble()
+            : 0.0,
         numOfTickets: json['numOfTic'],
         seatsBooked: List<int>.from(json['seatsBooked']),
         chooseSeatsPasInfo: {});

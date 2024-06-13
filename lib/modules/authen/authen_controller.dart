@@ -87,6 +87,16 @@ class AuthenController extends GetxController {
     await prefs.setString('token', token);
   }
 
+  Future<void> deleteToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+  }
+
+  void logout() async {
+    await deleteToken();
+    Get.toNamed(AppRoutes.loginPage);
+  }
+
   void login() async {
     try {
       var url = Uri.parse(UrlValue.loginUrl);

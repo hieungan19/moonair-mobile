@@ -8,9 +8,13 @@ class UrlValue {
   static final signUpUrl = "$app/users/signup";
   static final forgotPasswordUrl = "$app/users/forgotPassword";
   static final resetPasswordUrl = "$app/users/resetPassword";
+
   static final checkResetPasswordUrl = "$app/users/checkResetPassword";
   static final ggLoginUrl = "$app/users/gglogin";
   static final userInfo = "$app/users/me";
+
+  // user
+  static final editProfile = '$app/users/updateData';
   static final flights = "$app/flights";
 
   // flight
@@ -23,4 +27,7 @@ class UrlValue {
 
   //cancel ticket
   static final cancelTicket = '$app/invoices/ticket';
+
+  //rule
+  static final rule = '$app/rule';
 }

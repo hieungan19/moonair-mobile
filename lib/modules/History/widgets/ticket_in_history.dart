@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:moonair/core/app_colors.dart';
 import 'package:moonair/core/app_themes.dart';
 import 'package:moonair/data/models/flightInHistory.dart';
+import 'package:moonair/data/services/data_center.dart';
 import 'package:moonair/modules/history/history_controller.dart';
 import 'package:moonair/modules/history/widgets/pop_up_cancel_ticket.dart';
 
@@ -147,7 +148,11 @@ class MyTicketInHistory extends State<TicketInHistory> {
                         width: 1000,
                         child: Row(
                           children: [
-                            widget.ticket.status == true
+                            widget.ticket.status == true &&
+                                    _controller.canCancelTicket(
+                                        flight.takeoffTime,
+                                        DataCenter
+                                            .rule!.deadlineForCancelingTicket)
                                 ? Expanded(
                                     child: AppButton(
                                       buttonText: 'Hủy',

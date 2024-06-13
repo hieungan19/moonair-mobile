@@ -12,6 +12,7 @@ class ChooseSeatTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(_controller.currentTicketClass.value!.numOfTickets);
     final List<int> seatNumbers = List.generate(
         _controller.currentTicketClass.value!.numOfTickets,
         (index) => (index + 1));

@@ -7,22 +7,12 @@ import 'package:moonair/data/services/data_center.dart';
 import 'package:moonair/global_widgets/button.dart';
 import 'package:moonair/modules/edit-profile/widgets/CheckBox.dart';
 import 'package:moonair/modules/edit-profile/widgets/UserProfileForm.dart';
+import '../edit_profile_controller.dart';
 
 class EditProfile extends StatelessWidget {
-  final TextEditingController nameController =
-      TextEditingController(text: "Nguyễn Thanh Thư");
-  final TextEditingController emailController =
-      TextEditingController(text: "ABs@mail.com");
-  final TextEditingController phoneController =
-      TextEditingController(text: "0913128784");
-  final TextEditingController passportController =
-      TextEditingController(text: "Nguyễn Thanh Thư");
-  final TextEditingController idCardController =
-      TextEditingController(text: "Nguyễn Thanh Thư");
-  final TextEditingController countryController =
-      TextEditingController(text: "Nguyễn Thanh Thư");
-
   EditProfile({super.key});
+
+  final EditProfileController controller = Get.put(EditProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +29,7 @@ class EditProfile extends StatelessWidget {
           elevation: 15,
           backgroundColor: AppColors.primary,
           leading: Container(
-              margin: EdgeInsets.only(
-                  left: 3.0,
-                  bottom: 137.0), // Điều chỉnh margin trái cho nút leading
+              margin: EdgeInsets.only(left: 3.0, bottom: 137.0),
               child: IconButton(
                 iconSize: 40,
                 icon: Icon(AppIcons.left_square_2, color: AppColors.white),
@@ -93,28 +81,46 @@ class EditProfile extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              UserPro5FormWidget(
-                nameController: nameController,
-                emailController: emailController,
-                phoneController: phoneController,
-                passportController: passportController,
-                idCardController: idCardController,
-                countryController: countryController,
-              ),
+              UserPro5FormWidget(),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.0),
-                child: Row(children: [
-                  CheckBoxWidget(
-                    text: "Nam",
-                  ),
-                  SizedBox(width: 100),
-                  CheckBoxWidget(
-                    text: "Nữ",
-                  )
-                ]),
-              ),
+                  padding: EdgeInsets.symmetric(horizontal: 40.0),
+                  child: Obx(() => Row(children: [
+                        CheckBoxWidget(
+                          text: "Nam",
+                          isChecked: controller.gender.value == 'male',
+                          onChanged: (value) => controller.setGender('male'),
+                        ),
+                        SizedBox(width: 100),
+                        CheckBoxWidget(
+                          text: "Nữ",
+                          isChecked: controller.gender.value == 'female',
+                          onChanged: (value) => controller.setGender('female'),
+                        )
+                      ]))),
               SizedBox(height: 30),
-              AppButton(buttonText: 'Lưu thông tin', onPressedFunction: () {}),
+              AppButton(
+                  buttonText: 'Lưu thông tin',
+                  onPressedFunction: () async {
+                    try {
+                      controller.saveProfile();
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text(
+                          "Cập nhật thông tin thành công",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: AppColors.primary,
+                      ));
+                      Get.back();
+                    } catch (error) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text(
+                          "Đã xảy ra lỗi, vui lòng thử lại",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: Colors.redAccent,
+                      ));
+                    }
+                  }),
             ],
           ),
         ),

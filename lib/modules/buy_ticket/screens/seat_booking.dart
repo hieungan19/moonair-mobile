@@ -23,11 +23,10 @@ class _SeatBookingScreenState extends State<SeatBooking> {
   final BuyTicketController _controller = Get.find();
   late Flight flight;
 
-  void initializeFlight() async {
-    flight = Get.arguments as Flight;
-
-    _controller.currentFlight.value = flight;
-    _controller.currentTicketClass.value = flight.tickets?[0];
+  void initializeFlight() {
+    flight = _controller.currentFlight.value!;
+    _controller.currentTicketClass.value =
+        _controller.currentFlight.value!.tickets?[0];
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:moonair/data/models/flightInHistory.dart';
+import 'package:moonair/data/services/data_center.dart';
 import 'package:moonair/modules/history/history_controller.dart';
 import 'package:moonair/modules/history/widgets/pop_up_cancel_ticket.dart';
 
@@ -97,7 +98,10 @@ class _MyBookedDetailState extends State<MyBookedDetail> {
                           width: MediaQuery.of(context).size.width / 3,
                         )),
                   ),
-                  ticket.status == true
+                  ticket.status == true &&
+                          _controller.canCancelTicket(
+                              ticket.flight!.takeoffTime,
+                              DataCenter.rule!.deadlineForCancelingTicket)
                       ? AppButton(
                           buttonText: 'Hủy vé',
                           onPressedFunction: () {

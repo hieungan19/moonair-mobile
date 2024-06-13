@@ -10,6 +10,7 @@ import 'package:moonair/data/services/http_service.dart';
 import 'package:moonair/routes/app_route.dart';
 import 'package:intl/intl.dart';
 import '../../data/models/invoice.dart';
+import '../history/history_controller.dart';
 
 class BuyTicketController extends GetxController {
   final fromAirportId = ''.obs;
@@ -33,6 +34,7 @@ class BuyTicketController extends GetxController {
 
   //create invoice
   Future<void> createInvoice() async {
+    HistoryController historyController = Get.find();
     // Tạo đối tượng BoughtTicket
     //currentTicketClass.value?.chooseSeatsPasInfo?[seat] = passenger;
     List<BoughtTicket> boughtTickets = [];
@@ -62,6 +64,7 @@ class BuyTicketController extends GetxController {
           url: UrlValue.invoices, body: jsonEncode(invoice.toJson()));
       if (response.statusCode == 200) {
         print('Invoice created successfully.');
+        historyController.fetchHistory();
       } else {
         print(response.body);
       }
@@ -154,11 +157,14 @@ class BuyTicketController extends GetxController {
 
       for (var t in tickets) {
         Ticket temp = Ticket.fromJson(t);
+
         result.add(temp);
       }
+      print('Tickets: ${result.length}');
 
       return result;
     } catch (error) {
+      print(error);
       return null;
     }
   }
