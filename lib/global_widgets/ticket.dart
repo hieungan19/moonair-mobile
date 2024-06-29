@@ -57,6 +57,8 @@ class MyTicket extends State<TicketWidget> {
     Duration difference = takeOffTime.difference(now);
     int differenceInMinutes = difference.inMinutes;
 
+    print(differenceInMinutes);
+    print(DataCenter.rule);
     return differenceInMinutes > DataCenter.rule!.latestTimeForBooking;
   }
 
@@ -226,10 +228,12 @@ class MyTicket extends State<TicketWidget> {
                                 ),
                                 onPressed: () async {
                                   if (canSelectSeat()) {
+                                    print('OK');
                                     List<Ticket>? tickets =
                                         await _buyTicketController
                                             .fetchOneTicketById(
                                                 widget.flight.id);
+
                                     _buyTicketController.currentFlight.value!
                                         .updateTickets(tickets);
                                     Future.delayed(const Duration(seconds: 1),

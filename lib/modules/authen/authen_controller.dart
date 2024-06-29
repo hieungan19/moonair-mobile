@@ -120,7 +120,7 @@ class AuthenController extends GetxController {
             content: "Đăng nhập thành công",
             color: Colors.green);
         Future.delayed(const Duration(seconds: 2), () {
-          Get.toNamed(AppRoutes.homePage);
+          Get.toNamed(AppRoutes.base);
         });
       } else {
         throw Error();

@@ -40,7 +40,7 @@ class UserModel {
       email: json["email"] ?? "",
       role: json["role"] ?? "user",
       phoneNumber: json["phoneNumber"] ?? "",
-      photo: json["photo"] ?? "lib/assets/images/avatar.jpg",
+      photo: null,
       gender: json["gender"],
       dob: json["dob"] != null ? DateTime.parse(json["dob"]) : null,
       country: json["country"],

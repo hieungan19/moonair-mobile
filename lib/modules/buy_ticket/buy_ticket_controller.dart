@@ -154,13 +154,11 @@ class BuyTicketController extends GetxController {
           await HttpService.getRequest("${UrlValue.flights}/${id}");
       var data = jsonDecode(response.body);
       List<dynamic> tickets = data["flight"]["tickets"];
-
+      print('Tickets: ${tickets.length}');
       for (var t in tickets) {
         Ticket temp = Ticket.fromJson(t);
-
         result.add(temp);
       }
-      print('Tickets: ${result.length}');
 
       return result;
     } catch (error) {

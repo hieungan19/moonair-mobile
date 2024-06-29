@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:moonair/core/values/api_url.dart';
 import 'package:moonair/data/models/airport.dart';
+import 'package:moonair/data/models/rule.dart';
 import 'package:moonair/data/services/data_center.dart';
 import 'package:moonair/data/services/http_service.dart';
 import 'package:moonair/routes/app_route.dart';
@@ -22,6 +23,25 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     fetchAirports();
+    fetchRule();
+  }
+
+  Future<void> fetchRule() async {
+    try {
+      final response = await HttpService.getRequest(UrlValue.rule);
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        print(data);
+        if (data['status'] == 'success') {
+          var docs = data['doc'] as List;
+          DataCenter.rule = Rule.fromJson(docs[0]);
+        }
+      } else {
+        print('Failed to load rule');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   Future<void> fetchAirports() async {
